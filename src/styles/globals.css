@@ -1,0 +1,31 @@
+/*
+ * Global styles for the LinkUp application
+ * - Initializes Tailwind CSS
+ * - Defines custom utility classes
+ */
+
+@import "./AuthLayout.css";
+@import "./Input.css";
+@import "./Button.css";
+@import "./CodeInput.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Custom color variables */
+:root {
+  --linkup-purple: #6B46C1;
+}
