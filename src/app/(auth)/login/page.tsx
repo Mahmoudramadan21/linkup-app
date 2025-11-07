@@ -1,49 +1,85 @@
-/*
- * Login page for the LinkUp application
- * - Renders the login form within the auth layout
- * - Includes an illustration for visual appeal
+/**
+ * Login page for the LinkUp application (Server Component).
+ * Renders the login client component with metadata for SEO.
  */
 
-import LoginForm from '@/forms/auth/LoginForm';
-import Image from 'next/image';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import LoginClient from './LoginClient';
+import type { JSX } from 'react';
 
+/**
+ * Metadata for the login page.
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
-  title: 'Login',
-  description: 'Log in to LinkUp to connect with friends and share your moments.',
-  openGraph: {
-    title: 'LinkUp | Login',
-    description: 'Log in to LinkUp to connect with friends and share your moments.',
-    type: 'website',
+  title: "Log In | LinkUp",
+  description:
+    "Log in to LinkUp to connect with friends, share your moments, and explore your personalized feed.",
+  keywords: [
+    "LinkUp",
+    "login",
+    "sign in",
+    "account login",
+    "LinkUp login",
+    "social network login",
+  ],
+  authors: [{ name: "LinkUp Team" }],
+  applicationName: "LinkUp",
+  generator: "Next.js",
+
+  // Canonical URL
+  alternates: {
+    canonical: "/login",
   },
+
+  // Robots (login pages CAN be indexed)
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+
+  // Open Graph
+  openGraph: {
+    title: "Login | LinkUp",
+    description:
+      "Access your LinkUp account to connect with friends and explore updates.",
+    url: "/login",
+    siteName: "LinkUp",
+    type: "website",
+    images: [
+      {
+        url: "/og-login.png",
+        width: 1200,
+        height: 630,
+        alt: "LinkUp Login",
+      },
+    ],
+  },
+
+  // Twitter
   twitter: {
-    card: 'summary_large_image',
-    title: 'LinkUp | Login',
-    description: 'Log in to LinkUp to connect with friends and share your moments.',
+    card: "summary_large_image",
+    title: "Login | LinkUp",
+    description:
+      "Log in to your LinkUp account and continue connecting with the community.",
+    images: ["/og-login.png"],
+    creator: "@LinkUp",
   },
 };
 
-const LoginPage = () => {
-  return (
-    <div className="auth-page">
-      <div className="auth-page__container">
-        <div className="auth-page__form">
-          <LoginForm />
-        </div>
-        <div className="auth-page__illustration" aria-hidden="true">
-          <Image
-            src="/illustrations/login-illustration.svg"
-            alt="People connecting on LinkUp"
-            width={500}
-            height={500}
-            className="auth-page__image--illustration"
-            loading="lazy"
-            sizes="(max-width: 1024px) 50vw, 500px"
-          />
-        </div>
-      </div>
-    </div>
-  );
+/**
+ * Renders the login page with the login client component.
+ * @returns {JSX.Element} The login page component.
+ */
+const LoginPage = (): JSX.Element => {
+  return <LoginClient />;
 };
 
 export default LoginPage;

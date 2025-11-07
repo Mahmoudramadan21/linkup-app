@@ -1,49 +1,85 @@
-/*
- * Reset Password page for the LinkUp application
- * - Renders the reset password form within the auth layout
- * - Includes an illustration for visual appeal
+/**
+ * Reset Password page for the LinkUp application (Server Component).
+ * Renders the reset password form wrapper within the authentication layout.
  */
 
-import ResetPasswordForm from '@/forms/auth/ResetPasswordForm';
-import Image from 'next/image';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import ResetPasswordWrapper from './ResetPasswordWrapper';
+import type { JSX } from 'react';
 
+/**
+ * Metadata for the reset password page.
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
-  title: 'Reset Password',
-  description: 'Set a new password for your LinkUp account to regain access.',
-  openGraph: {
-    title: 'LinkUp | Reset Password',
-    description: 'Set a new password for your LinkUp account to regain access.',
-    type: 'website',
+  title: "Reset Password | LinkUp",
+  description:
+    "Reset your LinkUp account password securely to regain access to your profile.",
+  keywords: [
+    "LinkUp",
+    "reset password",
+    "forgot password",
+    "password recovery",
+    "account access",
+  ],
+  authors: [{ name: "LinkUp Team" }],
+  applicationName: "LinkUp",
+  generator: "Next.js",
+
+  // Canonical URL (important for avoiding duplicate pages)
+  alternates: {
+    canonical: "/reset-password",
   },
+
+  // Robots (Reset Password should NOT be indexed)
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      "max-snippet": -1,
+      "max-image-preview": "none",
+      "max-video-preview": -1,
+    },
+  },
+
+  // Open Graph
+  openGraph: {
+    title: "Reset Password | LinkUp",
+    description:
+      "Reset your LinkUp password to regain secure access to your account.",
+    url: "/reset-password",
+    siteName: "LinkUp",
+    type: "website",
+    images: [
+      {
+        url: "/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "LinkUp Password Reset",
+      },
+    ],
+  },
+
+  // Twitter Card
   twitter: {
-    card: 'summary_large_image',
-    title: 'LinkUp | Reset Password',
-    description: 'Set a new password for your LinkUp account to regain access.',
+    card: "summary_large_image",
+    title: "Reset Password | LinkUp",
+    description:
+      "Reset your LinkUp password to restore access to your account securely.",
+    images: ["/og-default.png"],
+    creator: "@LinkUp",
   },
 };
 
-const ResetPasswordPage = () => {
-  return (
-    <div className="auth-page">
-      <div className="auth-page__container">
-        <div className="auth-page__form">
-          <ResetPasswordForm />
-        </div>
-        <div className="auth-page__illustration" aria-hidden="true">
-          <Image
-            src="/illustrations/auth-security-illustration.svg"
-            alt="Illustration of a person resetting their password securely"
-            width={500}
-            height={500}
-            className="auth-page__image--illustration"
-            loading="lazy"
-            sizes="(max-width: 1024px) 50vw, 500px"
-          />
-        </div>
-      </div>
-    </div>
-  );
+/**
+ * Renders the reset password page with the reset password wrapper.
+ * @returns {JSX.Element} The reset password page component.
+ */
+const ResetPasswordPage = (): JSX.Element => {
+  return <ResetPasswordWrapper />;
 };
 
 export default ResetPasswordPage;

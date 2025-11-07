@@ -1,122 +1,113 @@
-/*
- * TypeScript interfaces for authentication
- * - Defines data structures for login, signup, forgot password forms, API responses, and components
- * - Used in LoginForm, SignupForm, ForgotPasswordForm, useLogin, useSignup, useForgotPassword, and authService
+/**
+ * Types related to Authentication APIs
  */
 
-export interface LoginFormData {
+/**
+ * Enum for user gender
+ */
+export enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  OTHER = "OTHER",
+}
+
+/**
+ * Represents a user in the authentication system
+ */
+export interface User {
+  userId: number;
+  username: string;
+  profileName: string;
+  profilePicture: string | null;
+  email: string;
+  isPrivate: boolean;
+}
+
+/**
+ * Request body for user signup
+ */
+export interface SignupRequest {
+  profileName: string;
+  username: string;
+  email: string;
+  password: string;
+  gender: Gender;
+  dateOfBirth: string; // ISO 8601 format (YYYY-MM-DD)
+}
+
+/**
+ * Request body for user login
+ */
+export interface LoginRequest {
   usernameOrEmail: string;
   password: string;
 }
 
-export interface LoginFormErrors {
-  usernameOrEmail?: string;
-  password?: string;
-}
-
-export interface SignupFormData {
-  profileName: string;
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: 'MALE' | 'FEMALE' | '';
-  dateOfBirth: string;
-  marketingConsent: boolean;
-}
-
-export interface SignupFormErrors {
-  profileName?: string;
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  gender?: string;
-  dateOfBirth?: string;
-  marketingConsent?: string;
-}
-
-export interface ForgotPasswordFormData {
+/**
+ * Request body for forgot password
+ */
+export interface ForgotPasswordRequest {
   email: string;
 }
 
-export interface ForgotPasswordFormErrors {
-  email?: string;
-}
-
-export interface VerifyCodeFormData {
+/**
+ * Request body for verifying reset code
+ */
+export interface VerifyCodeRequest {
   email: string;
-  code: string;
+  code: string; // 4-digit code
 }
 
-export interface VerifyCodeFormErrors {
-  email?: string;
-  code?: string;
-}
-
-export interface ResetPasswordFormData {
-  resetToken: string;
+/**
+ * Request body for resetting password
+ */
+export interface ResetPasswordRequest {
   newPassword: string;
-  confirmPassword: string;
 }
 
-export interface ResetPasswordFormErrors {
-  resetToken?: string;
-  newPassword?: string;
-  confirmPassword?: string;
-}
-
-export interface SignupApiPayload {
-  profileName: string;
-  username: string;
-  email: string;
-  password: string;
-  gender: 'MALE' | 'FEMALE' | '';
-  dateOfBirth: string;
-}
-
-export interface LoginResponse {
+/**
+ * Response for successful signup or login
+ */
+export interface AuthSuccessResponse {
   message: string;
-  data: FeedStoreAuthData;
+  data: User;
 }
 
-export interface SignupResponse {
-  message?: string;
-  data: FeedStoreAuthData;
+/**
+ * Response for refresh token
+ */
+export interface RefreshTokenSuccessResponse {
+  message: string;
+  data: User;
 }
 
+/**
+ * Response for isAuthenticated endpoint
+ */
+export interface IsAuthenticatedResponse {
+  isAuthenticated: boolean;
+  message: string;
+  data?: User; // Optional, only present if isAuthenticated is true
+}
+
+/**
+ * Response for forgot password
+ */
 export interface ForgotPasswordResponse {
   message: string;
   codeSent: boolean;
 }
 
+/**
+ * Response for verify code
+ */
 export interface VerifyCodeResponse {
   message: string;
-  resetToken: string;
 }
 
-export interface ResetPasswordResponse {
+/**
+ * Response for reset password or logout
+ */
+export interface SimpleSuccessResponse {
   message: string;
-}
-
-export interface FeedStoreAuthData {
-  accessToken: string;
-  refreshToken: string;
-  userId: number;
-  username: string;
-  profileName: string;
-  profilePicture?: string;
-  email?: string;
-}
-
-export interface ApiErrorResponse {
-  status: number;
-  message?: string;
-  errors?: { field?: string; message?: string; msg?: string }[];
-}
-
-export interface SelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
 }

@@ -1,49 +1,85 @@
-/*
- * Password Reset Success page for the LinkUp application
- * - Renders a success message after password reset
- * - Includes an illustration for visual appeal
+/**
+ * Password Reset Success page for the LinkUp application (Server Component).
+ * Renders the success message wrapper after a successful password reset.
  */
 
-import PasswordResetSuccess from '@/forms/auth/PasswordResetSuccess';
-import Image from 'next/image';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import PasswordResetSuccessWrapper from './PasswordResetSuccessWrapper';
+import type { JSX } from 'react';
 
+/**
+ * Metadata for the password reset success page.
+ * @type {Metadata}
+ */
 export const metadata: Metadata = {
-  title: 'Password Reset Success',
-  description: 'Your password has been successfully reset. Log in to your LinkUp account.',
-  openGraph: {
-    title: 'LinkUp | Password Reset Success',
-    description: 'Your password has been successfully reset. Log in to your LinkUp account.',
-    type: 'website',
+  title: "Password Reset Successful | LinkUp",
+  description:
+    "Your password has been successfully reset. You can now log in to your LinkUp account securely.",
+  keywords: [
+    "LinkUp",
+    "password reset",
+    "success",
+    "login",
+    "account access",
+  ],
+  authors: [{ name: "LinkUp Team" }],
+  applicationName: "LinkUp",
+  generator: "Next.js",
+
+  // Canonical URL
+  alternates: {
+    canonical: "/password-reset-success",
   },
+
+  // Robots – these pages MUST NOT be indexed
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      "max-snippet": -1,
+      "max-image-preview": "none",
+      "max-video-preview": -1,
+    },
+  },
+
+  // Open Graph
+  openGraph: {
+    title: "Password Reset Successful | LinkUp",
+    description:
+      "Your password has been reset successfully. You can now log in to your LinkUp account.",
+    url: "/password-reset-success",
+    siteName: "LinkUp",
+    type: "website",
+    images: [
+      {
+        url: "/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "Password Reset Completed",
+      },
+    ],
+  },
+
+  // Twitter
   twitter: {
-    card: 'summary_large_image',
-    title: 'LinkUp | Password Reset Success',
-    description: 'Your password has been successfully reset. Log in to your LinkUp account.',
+    card: "summary_large_image",
+    title: "Password Reset Successful | LinkUp",
+    description:
+      "Your LinkUp password has been reset successfully. You can now log in securely.",
+    images: ["/og-default.png"],
+    creator: "@LinkUp",
   },
 };
 
-const PasswordResetSuccessPage = () => {
-  return (
-    <div className="auth-page">
-      <div className="auth-page__container">
-        <div className="auth-page__form">
-          <PasswordResetSuccess />
-        </div>
-        <div className="auth-page__illustration" aria-hidden="true">
-          <Image
-            src="/illustrations/auth-security-illustration.svg"
-            alt="Illustration of a person resetting their password securely"
-            width={500}
-            height={500}
-            className="auth-page__image--illustration"
-            loading="lazy"
-            sizes="(max-width: 1024px) 50vw, 500px"
-          />
-        </div>
-      </div>
-    </div>
-  );
+/**
+ * Renders the password reset success page.
+ * @returns {JSX.Element} The password reset success page component.
+ */
+const PasswordResetSuccessPage = (): JSX.Element => {
+  return <PasswordResetSuccessWrapper />;
 };
 
 export default PasswordResetSuccessPage;

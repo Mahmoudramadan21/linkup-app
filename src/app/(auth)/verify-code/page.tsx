@@ -1,47 +1,84 @@
-/*
- * Verify Code page for the LinkUp application
- * - Renders the verification code form within the auth layout
- * - Includes an illustration for visual appeal
+/**
+ * Verify Code page for the LinkUp application (Server Component).
+ * Renders the verification code form within the authentication layout.
  */
 
-import VerificationCodeForm from '@/forms/auth/VerificationCodeForm';
-import Image from 'next/image';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import VerifyCodeWrapper from './VerifyCodeWrapper';
+import type { ReactElement } from 'react';
+import styles from "../auth-layout.module.css"
 
 export const metadata: Metadata = {
-  title: 'Verify Code',
-  description: 'Enter the verification code sent to your email to reset your LinkUp account password.',
-  openGraph: {
-    title: 'LinkUp | Verify Code',
-    description: 'Enter the verification code sent to your email to reset your LinkUp account password.',
-    type: 'website',
+  title: "Verify Code | LinkUp",
+  description:
+    "Enter the verification code sent to your email to continue resetting your LinkUp account password.",
+  keywords: [
+    "LinkUp",
+    "verify code",
+    "password reset",
+    "authentication",
+    "email verification",
+  ],
+  authors: [{ name: "LinkUp Team" }],
+  applicationName: "LinkUp",
+  generator: "Next.js",
+
+  // Canonical URL
+  alternates: {
+    canonical: "/verify-code",
   },
+
+  // Robots
+  robots: {
+    index: false, // Verify code page usually shouldn't be indexed
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      "max-snippet": -1,
+      "max-video-preview": -1,
+      "max-image-preview": "none",
+    },
+  },
+
+  // Open Graph
+  openGraph: {
+    title: "Verify Code | LinkUp",
+    description:
+      "Enter the verification code sent to your email to reset your LinkUp password.",
+    url: "/verify-code",
+    siteName: "LinkUp",
+    type: "website",
+    images: [
+      {
+        url: "/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "LinkUp Verification",
+      },
+    ],
+  },
+
+  // Twitter Card
   twitter: {
-    card: 'summary_large_image',
-    title: 'LinkUp | Verify Code',
-    description: 'Enter the verification code sent to your email to reset your LinkUp account password.',
+    card: "summary_large_image",
+    title: "Verify Code | LinkUp",
+    description:
+      "Enter the verification code sent to your email to reset your LinkUp account password.",
+    images: ["/og-default.png"],
+    creator: "@LinkUp",
   },
 };
 
-const VerifyCodePage = () => {
+/**
+ * Renders the verify code page with the verification form wrapper.
+ * @returns {ReactElement} The verify code page component.
+ */
+const VerifyCodePage = (): ReactElement => {
   return (
-    <div className="auth-page">
-      <div className="auth-page__container">
-        <div className="auth-page__form">
-          <VerificationCodeForm />
-        </div>
-        <div className="auth-page__illustration" aria-hidden="true">
-          <Image
-            src="/illustrations/auth-security-illustration.svg"
-            alt="Illustration of a person verifying a code securely"
-            width={500}
-            height={500}
-            className="auth-page__image--illustration"
-            loading="lazy"
-            sizes="(max-width: 1024px) 50vw, 500px"
-          />
-        </div>
-      </div>
+    <div className={styles["auth-page"]}>
+      <VerifyCodeWrapper />
     </div>
   );
 };

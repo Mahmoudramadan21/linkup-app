@@ -1,19 +1,197 @@
 /*
  * Global styles for the LinkUp application
- * - Initializes Tailwind CSS
- * - Defines custom utility classes
+ * - Optimized dark mode with high contrast and eye-friendly colors
+ * - Maintains vibrant branding with purple-teal-orange palette
+ * - Ensures accessibility and smooth theme transitions
  */
-
-@import "./AuthLayout.css";
-@import "./Input.css";
-@import "./Button.css";
-@import "./CodeInput.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Screen reader only class */
+/* Global Theme Variables (auto switch with data-theme or prefers-color-scheme) */
+:root {
+  /* ========== Brand Colors ========== */
+  --linkup-purple: #7C1CD4;
+  --linkup-purple-rgb: 124, 28, 212;
+  --linkup-purple-light: #A78BFA;
+  --linkup-purple-light-rgb: 167, 139, 250;
+  --linkup-purple-dark: #553C9A;
+  --linkup-purple-dark-rgb: 85, 60, 154;
+
+  /* ========== Complementary Colors ========== */
+  --linkup-teal: #2DD4BF;
+  --linkup-teal-rgb: 45, 212, 191;
+  --linkup-teal-light: #5EEAD4;
+  --linkup-teal-light-rgb: 94, 234, 212;
+  --linkup-teal-dark: #0F766E;
+  --linkup-teal-dark-rgb: 15, 118, 110;
+
+  --linkup-orange: #F97316;
+  --linkup-orange-rgb: 249, 115, 22;
+  --linkup-orange-light: #FDBA74;
+  --linkup-orange-light-rgb: 253, 186, 116;
+  --linkup-orange-dark: #C2410C;
+  --linkup-orange-dark-rgb: 194, 65, 12;
+
+  /* ========== Neutral Colors ========== */
+  --neutral-gray: #A5A7B1;
+  --neutral-gray-rgb: 165, 167, 177;
+  --neutral-gray-light: #D1D5DB;
+  --neutral-gray-light-rgb: 209, 213, 219;
+  --neutral-gray-dark: #4B5563;
+  --neutral-gray-dark-rgb: 75, 85, 99;
+
+  /* ========== Gradients ========== */
+  --gradient-purple-teal: linear-gradient(90deg, #6B46C1, #2DD4BF);
+  --gradient-purple-orange: linear-gradient(90deg, #6B46C1, #F97316);
+  --gradient-purple-orange-vertical: linear-gradient(180deg, #8C67F6 0%, #C34917 100%);
+  --gradient-green-vertical: linear-gradient(180deg, #009966 0%, #05DF72 100%);
+
+  /* ========== Waveform ========== */
+  --audio-waveform-sent: rgba(255, 255, 255, 0.4);
+  --audio-waveform-sent-progress: rgba(255, 255, 255, 1);
+
+  --audio-waveform-received: rgba(124, 28, 212, 0.35);       
+  --audio-waveform-received-progress: rgb(124, 28, 212);
+
+  /* ========== Light Theme Defaults ========== */
+  --app-bg: #F0F2F5;
+  --app-bg-rgb: 240, 242, 245;
+  --card-bg: #F0F2F5;
+  --card-bg-rgb: 240, 242, 245;
+  --text-primary: #111827;
+  --text-primary-rgb: 17, 24, 39;
+  --text-secondary: #595959;
+  --text-secondary-rgb: 89, 89, 89;
+  --text-muted: #54545F;
+  --text-muted-rgb: 84, 84, 95;
+  --border-color: #D1D5DB;
+  --border-color-rgb: 209, 213, 219;
+
+  /* ========== Section Backgrounds ========== */
+  --section-bg: #FFFFFF;
+  --section-bg-rgb: 255, 255, 255;
+
+  /* ========== Action Colors ========== */
+  --icon-accent-color: #a7a7a7;
+
+  /* ========== Secondary Accent Colors ========== */
+  --blue-action: #3B82F6;
+  --blue-action-rgb: 59, 130, 246;
+  --blue-light: #DBEAFE;
+  --blue-light-rgb: 219, 234, 254;
+  --pink-gradient: #FCE7F3;
+  --pink-gradient-rgb: 252, 231, 243;
+
+  /* ========== Feedback Colors ========== */
+  --success: #10B981;
+  --success-rgb: 16, 185, 129;
+  --error: #EF4444;
+  --error-rgb: 239, 68, 68;
+  --warning: #F59E0B;
+  --warning-rgb: 245, 158, 11;
+}
+
+/* 🌙 Dark Mode Overrides */
+html.dark,
+.dark {
+  --app-bg: #0D0C15;
+  --app-bg-rgb: 13, 12, 21;
+  --section-bg: #1A1C2B;
+  --section-bg-rgb: 26, 28, 43;
+  --card-bg: #222436;
+  --card-bg-rgb: 34, 36, 54;
+  --text-primary: #E5E7EB;
+  --text-primary-rgb: 229, 231, 235;
+  --text-secondary: #D1D5DB;
+  --text-secondary-rgb: 209, 213, 219;
+  /* --text-muted: #A8A8A8; */
+  --text-muted: #A5A7B1;
+  --text-muted-rgb: 165, 167, 177;
+  --border-color: #3F434F;
+  --border-color-rgb: 63, 67, 79;
+
+  --linkup-teal: #4ADE80;
+  --linkup-teal-rgb: 74, 222, 128;
+  --linkup-orange: #FB923C;
+  --linkup-orange-rgb: 251, 146, 60;
+
+  --icon-accent-color: #FFFFFF;
+
+  --gradient-purple-teal: linear-gradient(90deg, #553C9A, #0F766E);
+  --gradient-purple-orange: linear-gradient(90deg, #553C9A, #C2410C);
+
+  --audio-waveform-sent: rgba(255, 255, 255, 0.35);
+  --audio-waveform-sent-progress: rgb(255, 255, 255);
+
+  --audio-waveform-received: rgba(167, 139, 250, 0.4);     
+  --audio-waveform-received-progress: rgb(167, 139, 250);
+
+  --success: #34D399;
+  --success-rgb: 52, 211, 153;
+  --error: #F87171;
+  --error-rgb: 248, 113, 113;
+  --warning: #FBBF24;
+  --warning-rgb: 251, 191, 36;
+}
+
+/* 🌐 Auto Dark Mode with prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    --app-bg: #0D0C15;
+    --app-bg-rgb: 13, 12, 21;
+    --section-bg: #1A1C2B;
+    --section-bg-rgb: 26, 28, 43;
+    --card-bg: #222436;
+    --card-bg-rgb: 34, 36, 54;
+    --text-primary: #E5E7EB;
+    --text-primary-rgb: 229, 231, 235;
+    --text-secondary: #D1D5DB;
+    --text-secondary-rgb: 209, 213, 219;
+    --text-muted: #A5A7B1;
+    --text-muted-rgb: 165, 167, 177;
+    --border-color: #3F434F;
+    --border-color-rgb: 63, 67, 79;
+    --linkup-teal: #4ADE80;
+    --linkup-teal-rgb: 74, 222, 128;
+    --linkup-orange: #FB923C;
+    --linkup-orange-rgb: 251, 146, 60;
+    --gradient-purple-teal: linear-gradient(90deg, #553C9A, #0F766E);
+    --gradient-purple-orange: linear-gradient(90deg, #553C9A, #C2410C);
+    --audio-waveform-sent: rgba(255, 255, 255, 0.35);
+    --audio-waveform-sent-progress: rgb(255, 255, 255);
+
+    --audio-waveform-received: rgba(167, 139, 250, 0.4); 
+    --audio-waveform-received-progress: rgb(167, 139, 250);
+    --success: #34D399;
+    --success-rgb: 52, 211, 153;
+    --error: #F87171;
+    --error-rgb: 248, 113, 113;
+    --warning: #FBBF24;
+    --warning-rgb: 251, 191, 36;
+  }
+}
+
+/* Base Background and Text */
+html {
+  @apply bg-[var(--app-bg)] text-[var(--text-primary)] transition-colors duration-[350ms];
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  @keyframes storyRingPulse {
+    to { box-shadow: none; }
+  }
+}
+
+/* Screen Reader Only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -25,7 +203,57 @@
   border: 0;
 }
 
-/* Custom color variables */
-:root {
-  --linkup-purple: #6B46C1;
+/* Global Reset and Font Stack */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+  line-height: 1.5;
+}
+
+@layer utilities {
+  /* Base styled scrollbar */
+  .scrollbar::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;  
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(var(--linkup-purple-rgb), 0.6);
+    border-radius: 9999px;
+    transition: background 0.3s;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--linkup-purple-rgb), 0.9);
+  }
+
+  .scrollbar {
+    scrollbar-color: rgba(var(--linkup-purple-rgb), 0.6) transparent;
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+}
+
+
+@keyframes progress {
+  from { width: 0%; }
+  to { width: 100%; }
 }
