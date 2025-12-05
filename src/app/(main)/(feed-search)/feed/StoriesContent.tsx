@@ -1,21 +1,18 @@
 // app/(main)/(feed-search)/feed/StoriesContent.tsx
 'use client';
 
-import { useEffect, useRef, useMemo, useCallback, useState } from 'react';
+import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { debounce } from 'lodash';
 
-import { getStoryFeedThunk, deleteStoryThunk } from '@/store/storySlice';
+import { getStoryFeedThunk } from '@/store/storySlice';
 import { RootState, AppDispatch } from '@/store';
 
 import styles from './stories.module.css';
 import StoryAvatar from '@/components/ui/story/StoryAvatar';
 import CreateStoryAvatar from '@/components/ui/story/CreateStoryAvatar';
-import StoryViewersModal from '@/components/ui/story/modals/StoryViewersModal';
-import ConfirmationModal from '@/components/ui/modal/ConfirmationModal';
-import StoryReportModal from '@/components/ui/story/modals/StoryReportModal';
 
 /**
  * StoriesContent
@@ -27,14 +24,10 @@ const StoriesContent = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const { storyFeed, currentStory, loading, hasMore } = useSelector(
+  const { storyFeed,  loading, hasMore } = useSelector(
     (state: RootState) => state.story
   );
 
-  // Modal states
-  const [showDeleteModal, setShowDeleteModal] = useState<number | null>(null);
-  const [showReportModal, setShowReportModal] = useState<number | null>(null);
-  const [showViewersModal, setShowViewersModal] = useState<number | null>(null);
 
   const sentinelRef = useRef<HTMLDivElement>(null);
   const limit = 10;
@@ -96,20 +89,6 @@ const StoriesContent = () => {
     };
   }, [fetchNextPage]);
 
-  // Close modals on Escape
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setShowDeleteModal(null);
-        setShowReportModal(null);
-        setShowViewersModal(null);
-      }
-    };
-
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, []);
-
   // Skeleton placeholder component
   const StorySkeleton = () => (
       <div className={`${styles.stories__avatar_wrapper} ${styles.secondary}`}>
@@ -153,36 +132,6 @@ const StoriesContent = () => {
           )}
         </div>
       </div>
-
-      {/* Modals */}
-      {showViewersModal && (
-        <StoryViewersModal
-          isOpen
-          onClose={() => setShowViewersModal(null)}
-          storyId={showViewersModal}
-          viewCount={currentStory?.viewCount || 0}
-          likeCount={currentStory?.likeCount || 0}
-        />
-      )}
-
-      {showDeleteModal && (
-        <ConfirmationModal
-          isOpen
-          entityType="story"
-          entityId={showDeleteModal}
-          actionThunk={deleteStoryThunk}
-          onClose={() => setShowDeleteModal(null)}
-          loadingState={loading.deleteStory}
-        />
-      )}
-
-      {showReportModal && (
-        <StoryReportModal
-          isOpen
-          storyId={showReportModal}
-          onClose={() => setShowReportModal(null)}
-        />
-      )}
     </section>
   );
 };

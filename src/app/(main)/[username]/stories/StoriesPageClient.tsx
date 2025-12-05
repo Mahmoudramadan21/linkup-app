@@ -93,6 +93,10 @@ const FullStoryViewerPage: React.FC = memo(() => {
     }
   }, [currentIndex, currentStoryFeedItem, currentStoryFeedIndex, storyFeed, router]);
 
+  const handleClose = useCallback(() => {
+    router.push(`/${username}`, { scroll: false });
+  }, [router, username]);
+
   // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -100,7 +104,7 @@ const FullStoryViewerPage: React.FC = memo(() => {
       if (e.key === 'ArrowRight') handleNext();
       if (e.key === 'ArrowLeft') handlePrev();
     },
-    [handleNext, handlePrev]
+    [handleNext, handlePrev, handleClose]
   );
 
   useEffect(() => {
@@ -108,9 +112,6 @@ const FullStoryViewerPage: React.FC = memo(() => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const handleClose = useCallback(() => {
-    router.push(`/${username}`, { scroll: false });
-  }, [router, username]);
 
   useEffect(() => {
     if (username && !loading.getUserStories && currentStoryFeedItem === undefined) {

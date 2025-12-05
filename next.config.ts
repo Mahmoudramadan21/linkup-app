@@ -6,7 +6,7 @@ const nextConfig = {
   /**
    * Enables React Strict Mode for development to catch potential issues.
    */
-  reactStrictMode: true,
+  reactStrictMode: false,
 
   /**
    * Configures allowed domains for Next.js Image optimization.

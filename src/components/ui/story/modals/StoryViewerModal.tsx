@@ -164,6 +164,7 @@ const StoryViewerModal: React.FC<StoryViewerModalProps> = memo(
       isReplyInputFocused,
       currentIndex,
       onNext,
+      pausedAt
     ]);
 
     /* ==================== Record Story View ==================== */

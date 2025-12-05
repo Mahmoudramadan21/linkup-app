@@ -1,7 +1,7 @@
 // app/(main)/feed/stories/[username]/pageClient.tsx
 'use client';
 
-import { Suspense, useEffect, useState, useCallback, useRef, memo } from 'react';
+import { useEffect, useState, useCallback, useRef, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -138,62 +138,66 @@ const StoryViewerClient = memo(({ username: initialUsername }: { username: strin
     containerRef.current?.focus();
   }, []);
 
+  if (!currentStoryFeedItem || !currentStoryFeedItem.stories?.length) {
+    return null;
+  }
+
   return (
     <div ref={containerRef} tabIndex={-1} aria-label={`Viewing stories from @${username}`}>
-      <Suspense fallback={<Loading />}>
+      {currentStoryFeedItem?.stories && currentStoryFeedItem.stories.length > 0 && (
         <StoryViewerModal
           isOpen={true}
-          onClose={handleClose}
-          storyFeed={storyFeed}
-          selectedUserId={currentStoryFeedItem?.userId || null}
-          currentIndex={currentIndex}
-          loading={loading.getStoryFeed || loading.getUserStories}
-          navigation={{
-            onNext: handleNext,
-            onPrev: handlePrev,
-            onSelectUser: (userId) => {
-              const user = storyFeed.find(u => u.userId === userId);
-              if (user) {
-                router.push(`/feed/stories/${user.username}`, { scroll: false });
-                setCurrentIndex(0);
-              }
-            },
-          }}
-          actions={{
-            modals: { setShowReportModal, setShowDeleteModal },
-            interactions: {
-              onLike: (storyId) => dispatch(toggleStoryLikeThunk(storyId)),
-              onOpenViewersModal: setShowViewersModal,
-            },
+            onClose={handleClose}
+            storyFeed={storyFeed}
+            selectedUserId={currentStoryFeedItem?.userId || null}
+            currentIndex={currentIndex}
+            loading={loading.getStoryFeed || loading.getUserStories}
+            navigation={{
+              onNext: handleNext,
+              onPrev: handlePrev,
+              onSelectUser: (userId) => {
+                const user = storyFeed.find(u => u.userId === userId);
+                if (user) {
+                  router.push(`/feed/stories/${user.username}`, { scroll: false });
+                  setCurrentIndex(0);
+                }
+              },
+            }}
+            actions={{
+              modals: { setShowReportModal, setShowDeleteModal },
+              interactions: {
+                onLike: (storyId) => dispatch(toggleStoryLikeThunk(storyId)),
+                onOpenViewersModal: setShowViewersModal,
+              },
           }}
         />
+      )}
+      
+      {/* Action Modals */}
+      {showDeleteModal && (
+            <ConfirmationModal
+              isOpen
+              entityType="story"
+              entityId={showDeleteModal}
+              actionThunk={deleteStoryThunk}
+              onClose={() => setShowDeleteModal(null)}
+              loadingState={loading.deleteStory}
+            />
+      )}
 
-        {/* Action Modals */}
-        {showDeleteModal && (
-          <ConfirmationModal
-            isOpen
-            entityType="story"
-            entityId={showDeleteModal}
-            actionThunk={deleteStoryThunk}
-            onClose={() => setShowDeleteModal(null)}
-            loadingState={loading.deleteStory}
-          />
-        )}
+      {showReportModal && (
+            <StoryReportModal isOpen storyId={showReportModal} onClose={() => setShowReportModal(null)} />
+      )}
 
-        {showReportModal && (
-          <StoryReportModal isOpen storyId={showReportModal} onClose={() => setShowReportModal(null)} />
-        )}
-
-        {showViewersModal && currentStoryFeedItem?.stories[currentIndex] && (
-          <StoryViewersModal
-            isOpen
-            storyId={showViewersModal}
-            onClose={() => setShowViewersModal(null)}
-            viewCount={currentStoryFeedItem.stories[currentIndex].viewCount || 0}
-            likeCount={currentStoryFeedItem.stories[currentIndex].likeCount || 0}
-          />
-        )}
-      </Suspense>
+      {showViewersModal && currentStoryFeedItem?.stories[currentIndex] && (
+            <StoryViewersModal
+              isOpen
+              storyId={showViewersModal}
+              onClose={() => setShowViewersModal(null)}
+              viewCount={currentStoryFeedItem.stories[currentIndex].viewCount || 0}
+              likeCount={currentStoryFeedItem.stories[currentIndex].likeCount || 0}
+            />
+      )}
     </div>
   );
 });
