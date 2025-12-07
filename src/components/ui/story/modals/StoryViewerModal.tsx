@@ -97,6 +97,10 @@ const StoryViewerModal: React.FC<StoryViewerModalProps> = memo(
       : null;
     const currentStory = currentStoryFeedItem?.stories[currentIndex];
 
+    const currentStoryFeedIndex = storyFeed.findIndex(
+      (item) => item.userId === selectedUserId
+    );
+
     /* ==================== Pause Handling ==================== */
     // Pause story progression when tab is hidden or window loses focus
     useEffect(() => {
@@ -528,7 +532,7 @@ const StoryViewerModal: React.FC<StoryViewerModalProps> = memo(
                 <button
                   onClick={onPrev}
                   className={styles.stories__viewer_nav_prev}
-                  disabled={currentIndex === 0}
+                  disabled={currentIndex === 0 && currentStoryFeedIndex === 0}
                   aria-label="Previous story"
                 >
                   <FaChevronLeft className={styles.stories__viewer_nav_hint} />
