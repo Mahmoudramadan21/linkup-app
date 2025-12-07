@@ -1,7 +1,7 @@
 // app/(main)/(feed-search)/feed/stories/[username]/page.tsx
 'use client';
 
-import { Suspense, useEffect, useState, useCallback, useRef, memo } from 'react';
+import { Suspense, useEffect, useState, useCallback, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -53,8 +53,6 @@ const FullStoryViewerPage = memo(() => {
   const [showReportModal, setShowReportModal] = useState<number | null>(null);
   const [showViewersModal, setShowViewersModal] = useState<number | null>(null);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
   // Fetch user stories if not already loaded
   useEffect(() => {
     if (!currentStoryFeedItem) {
@@ -94,7 +92,6 @@ const FullStoryViewerPage = memo(() => {
     } else if (currentStoryFeedIndex < storyFeed.length - 1) {
       const nextUser = storyFeed[currentStoryFeedIndex + 1];
       router.push(`/feed/stories/${nextUser.username}`, { scroll: false });
-      setCurrentIndex(0);
     } else {
       handleClose();
     }
@@ -109,7 +106,6 @@ const FullStoryViewerPage = memo(() => {
     } else if (currentStoryFeedIndex > 0) {
       const prevUser = storyFeed[currentStoryFeedIndex - 1];
       router.push(`/feed/stories/${prevUser.username}`, { scroll: false });
-      setCurrentIndex(prevUser.stories.length - 1);
     }
   }, [currentStoryFeedItem, currentIndex, currentStoryFeedIndex, storyFeed, router]);
 
@@ -132,14 +128,8 @@ const FullStoryViewerPage = memo(() => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  // Focus container for keyboard accessibility
-  useEffect(() => {
-    containerRef.current?.focus();
-  }, []);
-
   return (
     <div
-      ref={containerRef}
       aria-label={`Viewing stories from @${username}`}
     >
       <Suspense fallback={<Loading />}>
