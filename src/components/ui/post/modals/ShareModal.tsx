@@ -89,7 +89,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, post, onClose }) => {
       return;
     }
 
-    const url = `${window.location.origin}/post/${post.PostID}`;
+    const url = `${window.location.origin}/feed?postId=${post.PostID}`;
     const shareData: ShareData = {
       title: `Post by ${post.User.Username}`,
       text: post.Content || 'Check out this post!',
@@ -123,7 +123,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, post, onClose }) => {
   const handleCopyLink = async () => {
     if (!post) return;
 
-    const url = `${window.location.origin}/post/${post.PostID}`;
+    const url = `${window.location.origin}/feed?postId=${post.PostID}`;
 
     if (navigator.clipboard?.writeText) {
       try {
