@@ -92,6 +92,10 @@ const HighlightViewerModal: React.FC<HighlightViewerModalProps> = memo(
       ? highlights.find((h) => h.highlightId === selectedHighlightId)
       : null;
 
+    const currentHighlightIndex = highlights.findIndex(
+      (h) => h.highlightId === selectedHighlightId
+    );
+
     const currentStory = currentHighlight?.stories[currentIndex];
 
     /**
@@ -459,7 +463,7 @@ const HighlightViewerModal: React.FC<HighlightViewerModalProps> = memo(
               <div className={styles.stories__viewer_nav}>
                 <button
                   onClick={onPrev}
-                  disabled={currentIndex === 0}
+                  disabled={currentIndex === 0 && currentHighlightIndex === 0}
                   className={styles.stories__viewer_nav_prev}
                   aria-label="Previous story"
                 >
