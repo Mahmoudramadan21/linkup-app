@@ -89,7 +89,7 @@ const HighlightModalPage: React.FC = memo(() => {
       if (currentIdx < highlights.length - 1) {
         const next = highlights[currentIdx + 1];
         router.push(`/${username}/highlights/${next.highlightId}`, { scroll: false });
-        setCurrentStoryIndex(0);
+        // setCurrentStoryIndex(0);
       } else {
         handleClose();
       }
@@ -105,7 +105,7 @@ const HighlightModalPage: React.FC = memo(() => {
       if (currentIdx > 0) {
         const prev = highlights[currentIdx - 1];
         router.push(`/${username}/highlights/${prev.highlightId}`, { scroll: false });
-        setCurrentStoryIndex(prev.stories.length - 1);
+        // setCurrentStoryIndex(prev.stories.length - 1);
       }
     }
   }, [currentStoryIndex, highlights, highlightId, username, router]);

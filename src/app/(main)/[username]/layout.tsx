@@ -261,7 +261,7 @@ export default function ProfileLayout({
    * @param {number} highlightId - The ID of the highlight to view.
    */
   const handleViewHighlight = (highlightId: number) => {
-    router.push(`/${username}/highlights/${highlightId}`);
+    router.push(`/${username}/highlights/${highlightId}`, { scroll: false });
   };
 
   /**
@@ -378,6 +378,7 @@ export default function ProfileLayout({
                       data-unviewed={profile.hasUnViewedStories && profile.hasActiveStories ? 'true' : 'false'}
                       aria-label={`View ${profile.username}'s stories`}
                       prefetch={false}
+                      scroll={false}
                     >
                       <Image
                         src={profile.profilePicture || '/avatars/default-avatar.svg'}
@@ -490,13 +491,13 @@ export default function ProfileLayout({
                         profileLoading.followUser[profile.userId] ||
                         profileLoading.unfollowUser[profile.userId]
                       }
-                     className={
+                     className={`${
                         profile.isFollowed === true
                           ? "btn-unfollow"
                           : profile.followStatus === "PENDING"
                           ? "btn-pending"
                           : "btn-follow"
-                      }
+                     } ml-0`}
                       aria-label={
                         profile.isFollowed
                           ? "Unfollow"
