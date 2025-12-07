@@ -84,7 +84,7 @@ const initialState: StoryState = {
     toggleStoryLike: false,
     deleteStory: false,
     reportStory: false,
-    getUserStories: false,
+    getUserStories: true,
     getMyStories: false,
   },
   error: {

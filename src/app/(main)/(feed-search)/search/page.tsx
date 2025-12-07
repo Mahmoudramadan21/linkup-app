@@ -19,7 +19,7 @@ export function generateMetadata(): Metadata {
     description: 'Find people, posts, photos, videos, and trending content on LinkUp.',
 
     alternates: {
-      canonical: '/search',
+      canonical: 'https://linkup-app-frontend.vercel.app/search',
     },
 
     robots: {
@@ -37,7 +37,7 @@ export function generateMetadata(): Metadata {
     openGraph: {
       title: 'Search LinkUp',
       description: 'Discover people, posts, and trending content across LinkUp.',
-      url: '/search',
+      url: 'https://linkup-app-frontend.vercel.app/search',
       siteName: 'LinkUp',
       type: 'website',
       locale: 'en_US',
@@ -80,12 +80,12 @@ export default function SearchPage() {
         data={{
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          url: 'https://linkup.com',
+          url: 'https://linkup-app-frontend.vercel.app',
           potentialAction: {
             '@type': 'SearchAction',
             target: {
               '@type': 'EntryPoint',
-              urlTemplate: 'https://linkup.com/search?q={search_term_string}',
+              urlTemplate: 'https://linkup-app-frontend.vercel.app/search?q={search_term_string}',
             },
             'query-input': 'required name=search_term_string',
           },
@@ -99,11 +99,11 @@ export default function SearchPage() {
           '@type': 'SearchResultsPage',
           name: 'LinkUp Search',
           description: 'Search results for people, posts, and content on LinkUp social network.',
-          url: 'https://linkup.com/search',
+          url: 'https://linkup-app-frontend.vercel.app/search',
           isPartOf: {
             '@type': 'WebSite',
             name: 'LinkUp',
-            url: 'https://linkup.com',
+            url: 'https://linkup-app-frontend.vercel.app',
           },
         }}
       />

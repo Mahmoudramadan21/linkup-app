@@ -47,8 +47,8 @@ const ProfileHeaderSkeleton: React.FC = memo(() => {
       <div className={styles['profile-header__content']}>
         {/* Name & Username */}
         <div className={styles['profile-header__details']}>
-          <div className="h-8 w-48 bg-neutral-gray rounded-lg mb-3" />
-          <div className="h-5 w-32 bg-neutral-gray rounded" />
+          <div className="h-8 w-48 bg-neutral-gray rounded-lg mb-3 mx-auto lg:mx-0" />
+          <div className="h-5 w-32 bg-neutral-gray rounded mx-auto lg:mx-0" />
         </div>
 
         {/* Stats: Posts, Followers, Following */}

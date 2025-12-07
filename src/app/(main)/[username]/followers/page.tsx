@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `See who follows ${displayName} on LinkUp social network.`,
 
     alternates: {
-      canonical: `/${username}/followers`,
+      canonical: `https://linkup-app-frontend.vercel.app/${username}/followers`,
     },
 
     // Safe default: assume public until client confirms otherwise
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${displayName}'s Followers | LinkUp`,
       description: `Discover the people who follow ${displayName} on LinkUp.`,
-      url: `https://linkup.com/${username}/followers`,
+      url: `https://linkup-app-frontend.vercel.app/${username}/followers`,
       siteName: 'LinkUp',
       type: 'profile',
       locale: 'en_US',
@@ -93,11 +93,11 @@ export default async function StoryViewerPage({ params }: Props) {
           '@type': 'WebPage',
           name: `${cleanUsername}'s Followers`,
           description: `List of users who follow @${username} on LinkUp social platform.`,
-          url: `https://linkup.com/${username}/followers`,
+          url: `https://linkup-app-frontend.vercel.app/${username}/followers`,
           isPartOf: {
             '@type': 'WebSite',
             name: 'LinkUp',
-            url: 'https://linkup.com',
+            url: 'https://linkup-app-frontend.vercel.app',
           },
         }}
       />
@@ -109,7 +109,7 @@ export default async function StoryViewerPage({ params }: Props) {
           '@type': 'ItemList',
           name: `Followers of ${username}`,
           description: `People who follow @${username} on LinkUp.`,
-          url: `https://linkup.com/${username}/followers`,
+          url: `https://linkup-app-frontend.vercel.app/${username}/followers`,
           itemListOrder: 'http://schema.org/ItemListOrderDescendingByDate',
           numberOfItems: 0, // populated client-side for public profiles
         }}

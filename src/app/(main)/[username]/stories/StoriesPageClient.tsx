@@ -74,7 +74,6 @@ const FullStoryViewerPage: React.FC = memo(() => {
     } else if (currentStoryFeedIndex < storyFeed.length - 1) {
       const nextUser = storyFeed[currentStoryFeedIndex + 1];
       router.push(`/feed/stories/${nextUser.username}`, { scroll: false });
-      // setCurrentIndex(0);
     } else {
       router.push('/feed', { scroll: false });
     }
@@ -89,7 +88,6 @@ const FullStoryViewerPage: React.FC = memo(() => {
     } else if (currentStoryFeedIndex > 0) {
       const prevUser = storyFeed[currentStoryFeedIndex - 1];
       router.push(`/feed/stories/${prevUser.username}`, { scroll: false });
-      // setCurrentIndex(prevUser.stories.length - 1);
     }
   }, [currentIndex, currentStoryFeedItem, currentStoryFeedIndex, storyFeed, router]);
 
@@ -118,8 +116,6 @@ const FullStoryViewerPage: React.FC = memo(() => {
       router.replace(`/${username}`, { scroll: false });
     }
   }, [username, currentStoryFeedItem, router, loading.getUserStories]);
-
-  console.log(currentStoryFeedItem)
 
   const currentStory = currentStoryFeedItem?.stories[currentIndex];
 

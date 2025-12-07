@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
   // Canonical URL
   alternates: {
-    canonical: "/password-reset-success",
+    canonical: "https://linkup-app-frontend.vercel.app/password-reset-success",
   },
 
   // Robots – these pages MUST NOT be indexed
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "Password Reset Successful | LinkUp",
     description:
       "Your password has been reset successfully. You can now log in to your LinkUp account.",
-    url: "/password-reset-success",
+    url: "https://linkup-app-frontend.vercel.app/password-reset-success",
     siteName: "LinkUp",
     type: "website",
     images: [

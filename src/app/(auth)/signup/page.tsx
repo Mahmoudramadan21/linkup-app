@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
   // Canonical URL
   alternates: {
-    canonical: "/signup",
+    canonical: "https://linkup-app-frontend.vercel.app/signup",
   },
 
   // Robots
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "Create Account | LinkUp",
     description:
       "Join LinkUp today and start connecting with people around the world.",
-    url: "/signup",
+    url: "https://linkup-app-frontend.vercel.app/signup",
     siteName: "LinkUp",
     type: "website",
     images: [

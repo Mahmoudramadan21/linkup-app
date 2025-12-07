@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `See who ${displayName} follows on LinkUp.`,
 
     alternates: {
-      canonical: `/${username}/following`,
+      canonical: `https://linkup-app-frontend.vercel.app/${username}/following`,
     },
 
     // We cannot know if the account is private on the server → default to safe indexing
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${displayName}'s Following | LinkUp`,
       description: `Discover the accounts ${displayName} follows on LinkUp social network.`,
-      url: `https://linkup.com/${username}/following`,
+      url: `https://linkup-app-frontend.vercel.app/${username}/following`,
       siteName: 'LinkUp',
       type: 'profile',
       locale: 'en_US',
@@ -92,11 +92,11 @@ export default async function StoryViewerPage({ params }: Props) {
           '@type': 'WebPage',
           name: `${cleanUsername}'s Following List`,
           description: `List of accounts that @${username} follows on LinkUp.`,
-          url: `https://linkup.com/${username}/following`,
+          url: `https://linkup-app-frontend.vercel.app/${username}/following`,
           isPartOf: {
             '@type': 'WebSite',
             name: 'LinkUp',
-            url: 'https://linkup.com',
+            url: 'https://linkup-app-frontend.vercel.app',
           },
         }}
       />
@@ -108,7 +108,7 @@ export default async function StoryViewerPage({ params }: Props) {
           '@type': 'ItemList',
           name: `People ${cleanUsername} Follows`,
           description: `Accounts followed by @${username} on LinkUp social platform.`,
-          url: `https://linkup.com/${username}/following`,
+          url: `https://linkup-app-frontend.vercel.app/${username}/following`,
           itemListOrder: 'http://schema.org/ItemListOrderDescendingByDate',
           numberOfItems: 0, // actual count populated client-side if public
         }}

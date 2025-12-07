@@ -161,7 +161,7 @@ const SidebarContent = () => {
                         <p className={styles['sidebar__bio']}>{item.bio || 'No bio available'}</p>
                       </div>
                       <button
-                        className={styles['sidebar__follow-button']}
+                        className={`${item.isFollowed ? styles["btn-unfollow"] : styles["btn-follow"]} text-xs px-2 py-1`}
                         onClick={() => handleFollowOrUnfollow(item.userId, item.isFollowed || false)}
                         aria-label={`${item.isFollowed ? 'Unfollow' : 'Follow'} ${item.username}`}
                         disabled={loading.followUser[item.userId] || loading.unfollowUser[item.userId]}

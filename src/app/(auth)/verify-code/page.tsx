@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
   // Canonical URL
   alternates: {
-    canonical: "/verify-code",
+    canonical: "https://linkup-app-frontend.vercel.app/verify-code",
   },
 
   // Robots
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Verify Code | LinkUp",
     description:
       "Enter the verification code sent to your email to reset your LinkUp password.",
-    url: "/verify-code",
+    url: "https://linkup-app-frontend.vercel.app/verify-code",
     siteName: "LinkUp",
     type: "website",
     images: [

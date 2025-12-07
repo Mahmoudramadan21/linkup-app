@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: "Chat privately with friends and stay connected on LinkUp.",
 
     alternates: {
-      canonical: "/messages",
+      canonical: "https://linkup-app-frontend.vercel.app/messages",
     },
 
     robots: {
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Messages | LinkUp",
       description: "Chat privately and stay connected with your friends on LinkUp.",
-      url: "/messages",
+      url: "https://linkup-app-frontend.vercel.app/messages",
       siteName: "LinkUp",
       type: "website",
       locale: "en_US",

@@ -387,7 +387,7 @@ const MessageBubble = memo(
           </div>
 
           {/* Action Buttons */}
-          {message.Status === "SENT" && (
+          {message.Status !== "SENDING" && (
             <div className={styles.message__actions}>
               <button
                 className={`${styles.message__action} ${styles['message__action--reply']}`}

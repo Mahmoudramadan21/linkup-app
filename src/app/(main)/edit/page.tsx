@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     'Manage your personal information, profile photo, bio, and privacy settings.',
 
   alternates: {
-    canonical: '/edit',
+    canonical: 'https://linkup-app-frontend.vercel.app/edit',
   },
 
   // This page must NOT be indexed (private)
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Edit Your Profile on LinkUp',
     description:
       'Update your profile photo, bio, and personal details to customize your LinkUp experience.',
-    url: '/edit',
+    url: 'https://linkup-app-frontend.vercel.app/edit',
     siteName: 'LinkUp',
     type: 'website',
     locale: 'en_US',
@@ -70,18 +70,18 @@ export default function EditProfilePage() {
           name: 'Edit Profile',
           description:
             'Manage your profile information, photos, and privacy settings.',
-          url: 'https://linkup.com/edit',
+          url: 'https://linkup-app-frontend.vercel.app/edit',
           isPartOf: {
             '@type': 'WebSite',
             name: 'LinkUp',
-            url: 'https://linkup.com',
+            url: 'https://linkup-app-frontend.vercel.app',
           },
           potentialAction: {
             '@type': 'UpdateAction',
             name: 'Edit Profile',
             target: {
               '@type': 'EntryPoint',
-              urlTemplate: 'https://linkup.com/edit',
+              urlTemplate: 'https://linkup-app-frontend.vercel.app/edit',
             },
           },
         }}

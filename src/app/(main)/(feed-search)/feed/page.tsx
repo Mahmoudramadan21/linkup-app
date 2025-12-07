@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
   // Canonical URL
   alternates: {
-    canonical: '/feed',
+    canonical: 'https://linkup-app-frontend.vercel.app/feed',
   },
 
   // Full indexing – this is your homepage alternative
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Your Feed on LinkUp',
     description: 'Stay connected with friends through posts, stories, and real-time updates.',
-    url: '/feed',
+    url: 'https://linkup-app-frontend.vercel.app/feed',
     siteName: 'LinkUp',
     type: 'website',
     locale: 'en_US',
