@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import FileUploader from './FileUploader';
 import VoiceRecorder from './VoiceRecorder';
-import { useSendTypingStart, useSendTypingStop } from '../hooks/useMessagesSocket';
+import { useSendTypingStart, useSendTypingStop } from '../hooks/useAppSocket';
 
 import styles from '../messages.module.css';
 

@@ -8,7 +8,6 @@ import { AppDispatch, RootState } from '@/store';
 import { getConversationsThunk } from '@/store/messageSlice';
 import { setIsMobileMessagesSidebarOpen } from '@/store/uiSlice';
 
-import { useMessagesSocket } from './hooks/useMessagesSocket';
 import ConversationList from './components/ConversationList';
 
 import styles from './messages.module.css';
@@ -31,8 +30,6 @@ export default function MessagesLayout({ children }: { children: React.ReactNode
     (state: RootState) => state.ui.isMobileMessagesSidebarOpen
   );
 
-  // Establish real-time WebSocket connection for messages
-  useMessagesSocket();
 
   /* -------------------------------------------------------------------------- */
   /*                          Load Initial Conversations                        */

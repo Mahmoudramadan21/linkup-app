@@ -1,4 +1,4 @@
-// app/messages/hooks/useMessagesSocket.tsx
+// app/messages/hooks/useAppSocket.tsx
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
@@ -17,20 +17,26 @@ import {
   stopTypingDisplay,
 } from '@/store/messageSlice';
 
+import {
+  receiveNewNotification,
+  receiveUnreadCountUpdate,
+  removeNotificationsByIds,
+} from "@/store/notificationSlice";
+
 /**
- * useMessagesSocket
- * Singleton WebSocket manager for real-time messaging features.
+ * useAppSocket
+ * Singleton WebSocket manager for real-time messaging + notifications features.
  *
  * Features:
  * - Singleton socket instance (no duplicates)
  * - Auto connect on authenticated user
- * - Full event handling (new/edit/delete/read messages, typing, conversations)
+ * - Full event handling for messages AND notifications
  * - Smart room join/leave when switching conversations
  * - Proper cleanup of typing timeouts & socket listeners
  * - Debounced typing:start emission
  * - Comprehensive logging (dev only)
  */
-export const useMessagesSocket = () => {
+export const useAppSocket = () => {
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.auth.user?.userId);
   const currentConversationId = useSelector(
@@ -52,11 +58,11 @@ export const useMessagesSocket = () => {
   const getSocket = useCallback((): Socket => {
     if (socketRef.current) return socketRef.current;
 
-    const url = process.env.NEXT_PUBLIC_API_URL || 'wss://api.linkup.com';
+    const url = process.env.NEXT_PUBLIC_API_URL || "wss://api.linkup.com";
 
     const socket = io(url, {
       withCredentials: true,
-      transports: ['websocket'],
+      transports: ["websocket"],
       autoConnect: false,
       reconnection: true,
       reconnectionAttempts: 5,
@@ -72,14 +78,17 @@ export const useMessagesSocket = () => {
   /*                             Typing Timeout Management                            */
   /* -------------------------------------------------------------------------- */
 
-  const clearTypingTimeout = useCallback((conversationId: string, userId: number) => {
-    const key = `${conversationId}:${userId}`;
-    const timeoutId = typingTimeouts.current.get(key);
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      typingTimeouts.current.delete(key);
-    }
-  }, []);
+  const clearTypingTimeout = useCallback(
+    (conversationId: string, userId: number) => {
+      const key = `${conversationId}:${userId}`;
+      const timeoutId = typingTimeouts.current.get(key);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        typingTimeouts.current.delete(key);
+      }
+    },
+    []
+  );
 
   const clearAllTypingTimeouts = useCallback(() => {
     typingTimeouts.current.forEach((id) => clearTimeout(id));
@@ -97,38 +106,42 @@ export const useMessagesSocket = () => {
     socket.connect();
 
     const log = (event: string, data?: any) => {
-      console.log(`%c[Socket] ${event}`, 'color: #4ade80; font-weight: bold;', data || '');
+      console.log(
+        `%c[Socket] ${event}`,
+        "color: #4ade80; font-weight: bold;",
+        data || ""
+      );
     };
 
-    /* ----------------------------- Event Handlers ----------------------------- */
+    /* ----------------------------- Messages Event Handlers ----------------------------- */
 
     const handleNewMessage = (data: any) => {
-      log('message:new', data);
+      log("message:new", data);
       dispatch(receiveNewMessage({ ...data, currentUserId: userId }));
     };
 
     const handleMessageEdited = (data: any) => {
-      log('message:edited', data);
+      log("message:edited", data);
       dispatch(receiveMessageEdited(data));
     };
 
     const handleMessageDeleted = (data: any) => {
-      log('message:deleted', data);
+      log("message:deleted", data);
       dispatch(receiveMessageDeleted(data));
     };
 
     const handleMessagesRead = (data: any) => {
-      log('messages:read', data);
+      log("messages:read", data);
       dispatch(receiveMessagesRead(data));
     };
 
     const handleConversationCreated = (data: any) => {
-      log('conversation:created', data);
+      log("conversation:created", data);
       dispatch(receiveConversationCreated({ ...data, currentUserId: userId }));
     };
 
     const handleConversationsUpdated = (data: any) => {
-      log('conversations:updated', data);
+      log("conversations:updated", data);
       dispatch(receiveConversationsUpdated(data));
     };
 
@@ -138,7 +151,7 @@ export const useMessagesSocket = () => {
       username: string;
       isTyping: boolean;
     }) => {
-      log('typing', data);
+      log("typing", data);
       dispatch(receiveTyping(data));
 
       if (data.isTyping) {
@@ -151,48 +164,78 @@ export const useMessagesSocket = () => {
             })
           );
         }, 3000);
-        typingTimeouts.current.set(`${data.conversationId}:${data.userId}`, timeoutId);
+        typingTimeouts.current.set(
+          `${data.conversationId}:${data.userId}`,
+          timeoutId
+        );
       } else {
         clearTypingTimeout(data.conversationId, data.userId);
       }
     };
 
+    /* ----------------------------- Notifications Event Handlers ----------------------------- */
+
+    const handleNewNotification = (data: any) => {
+      log("notification:new", data);
+      dispatch(receiveNewNotification(data));
+    };
+
+    const handleDeletedNotifications = (deletedIds: number[]) => {
+      log("notification:deleted", deletedIds);
+      dispatch(removeNotificationsByIds(deletedIds));
+    };
+    
+    const handleUnreadCountUpdate = (data: { count: number }) => {
+      log("unreadNotificationsCount", data);
+      dispatch(receiveUnreadCountUpdate({ count: data.count }));
+    };
+
     /* ------------------------------- Listeners ------------------------------- */
 
-    socket.on('message:new', handleNewMessage);
-    socket.on('message:edited', handleMessageEdited);
-    socket.on('message:deleted', handleMessageDeleted);
-    socket.on('messages:read', handleMessagesRead);
-    socket.on('conversation:created', handleConversationCreated);
-    socket.on('conversations:updated', handleConversationsUpdated);
-    socket.on('typing', handleTyping);
+    // Messages Events
+    socket.on("message:new", handleNewMessage);
+    socket.on("message:edited", handleMessageEdited);
+    socket.on("message:deleted", handleMessageDeleted);
+    socket.on("messages:read", handleMessagesRead);
+    socket.on("conversation:created", handleConversationCreated);
+    socket.on("conversations:updated", handleConversationsUpdated);
+    socket.on("typing", handleTyping);
 
-    socket.on('connect', () => console.log('%cWebSocket connected', 'color: #34d399'));
-    socket.on('disconnect', (reason) => console.warn('WebSocket disconnected:', reason));
-    socket.on('connect_error', (err) => console.error('WebSocket error:', err));
+    socket.on("notification:new", handleNewNotification);
+    socket.on("notification:deleted", handleDeletedNotifications);
+    socket.on("unreadNotificationsCount", handleUnreadCountUpdate);
+
+    // Connection Events
+    socket.on("connect", () =>
+      console.log("%cWebSocket connected", "color: #34d399")
+    );
+    socket.on("disconnect", (reason) =>
+      console.warn("WebSocket disconnected:", reason)
+    );
+    socket.on("connect_error", (err) => console.error("WebSocket error:", err));
 
     /* -------------------------------- Cleanup -------------------------------- */
 
     return () => {
-      socket.off('message:new', handleNewMessage);
-      socket.off('message:edited', handleMessageEdited);
-      socket.off('message:deleted', handleMessageDeleted);
-      socket.off('messages:read', handleMessagesRead);
-      socket.off('conversation:created', handleConversationCreated);
-      socket.off('conversations:updated', handleConversationsUpdated);
-      socket.off('typing', handleTyping);
+      // Messages Listeners
+      socket.off("message:new", handleNewMessage);
+      socket.off("message:edited", handleMessageEdited);
+      socket.off("message:deleted", handleMessageDeleted);
+      socket.off("messages:read", handleMessagesRead);
+      socket.off("conversation:created", handleConversationCreated);
+      socket.off("conversations:updated", handleConversationsUpdated);
+      socket.off("typing", handleTyping);
+
+      // Notifications Listeners
+      socket.off("notification:new", handleNewNotification);
+      socket.off("notification:deleted", handleDeletedNotifications);
+      socket.off("unreadNotificationsCount", handleUnreadCountUpdate);
 
       clearAllTypingTimeouts();
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [
-    userId,
-    dispatch,
-    clearTypingTimeout,
-    clearAllTypingTimeouts,
-    getSocket,
-  ]);
+  }, [userId, dispatch, clearTypingTimeout, clearAllTypingTimeouts, getSocket]);
 
   /* -------------------------------------------------------------------------- */
   /*                               Room Join / Leave                                 */
@@ -208,13 +251,17 @@ export const useMessagesSocket = () => {
       if (!socket.connected) return;
 
       // Leave previous room
-      if (prevConversationId.current && prevConversationId.current !== currentConversationId) {
+      if (
+        prevConversationId.current &&
+        prevConversationId.current !== currentConversationId
+      ) {
         const prevRoom = `conversation:${prevConversationId.current}`;
-        socket.emit('conversation:leave', prevRoom);
+        socket.emit("conversation:leave", prevRoom);
         console.log(`Left room: ${prevRoom}`);
 
         // Clear typing indicators of previous conversation
-        const oldIndicators = typingIndicators[prevConversationId.current] || [];
+        const oldIndicators =
+          typingIndicators[prevConversationId.current] || [];
         oldIndicators.forEach(({ userId }) => {
           clearTypingTimeout(prevConversationId.current!, userId);
           dispatch(
@@ -226,7 +273,7 @@ export const useMessagesSocket = () => {
         });
       }
 
-      socket.emit('conversation:join', room);
+      socket.emit("conversation:join", room);
       console.log(`Joined room: ${room}`);
       prevConversationId.current = currentConversationId;
     };
@@ -236,12 +283,12 @@ export const useMessagesSocket = () => {
     }
 
     const handleConnect = () => joinRoom();
-    socket.on('connect', handleConnect);
+    socket.on("connect", handleConnect);
 
     return () => {
-      socket.off('connect', handleConnect);
+      socket.off("connect", handleConnect);
       if (socket.connected) {
-        socket.emit('conversation:leave', room);
+        socket.emit("conversation:leave", room);
         console.log(`Left room (cleanup): ${room}`);
       }
     };

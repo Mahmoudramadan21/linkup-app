@@ -310,7 +310,7 @@ const VoiceRecorder = memo(
 
     return (
       <div
-        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(var(--app-bg-rgb),0.6)] dark:bg-[rgba(var(--app-bg-rgb),0.8)] backdrop-blur-md p-4"
         role="dialog"
         aria-modal="true"
         aria-labelledby="voice-recorder-title"
