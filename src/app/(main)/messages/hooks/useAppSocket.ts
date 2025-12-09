@@ -180,11 +180,15 @@ export const useAppSocket = () => {
       dispatch(receiveNewNotification(data));
     };
 
-    const handleDeletedNotifications = (deletedIds: number[]) => {
-      log("notification:deleted", deletedIds);
-      dispatch(removeNotificationsByIds(deletedIds));
+    const handleDeletedNotifications = ({
+      notificationIds,
+    }: {
+      notificationIds: number[];
+    }) => {
+      log("notification:deleted", notificationIds);
+      dispatch(removeNotificationsByIds({ notificationIds }));
     };
-    
+
     const handleUnreadCountUpdate = (data: { count: number }) => {
       log("unreadNotificationsCount", data);
       dispatch(receiveUnreadCountUpdate({ count: data.count }));

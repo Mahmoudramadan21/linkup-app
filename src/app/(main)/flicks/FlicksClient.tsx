@@ -23,6 +23,7 @@ import {
   FaPaperPlane,
   FaBookmark,
   FaSpinner,
+  FaTimes,
 } from 'react-icons/fa';
 
 import { RootState, AppDispatch } from '@/store';
@@ -547,7 +548,7 @@ const FlicksPageClient: React.FC = () => {
                         <div className={styles['flicks__comment-modal-header']}>
                           <h2 className={styles['flicks__comment-modal-title']}>Comments</h2>
                           <button onClick={() => setShowCommentModal(null)} aria-label="Close">
-                            ×
+                            <FaTimes size={20} />
                           </button>
                         </div>
 
