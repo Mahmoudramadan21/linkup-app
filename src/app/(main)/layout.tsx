@@ -5,9 +5,14 @@ import { usePathname } from 'next/navigation';
 import Header from '@/components/ui/common/Header';
 import Aside from '@/components/ui/common/Aside';
 
+import { useAppSocket } from './messages/hooks/useAppSocket';
+
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Establish real-time WebSocket connection for messages
+  useAppSocket();
 
   useEffect(() => {
     const checkScreenSize = () => setIsSmallScreen(window.innerWidth <= 540);

@@ -27,7 +27,6 @@ import ProfileIcon from "/public/icons/ProfileIcon.svg";
 import UsersIcon from "/public/icons/UsersIcon.svg";
 import CompassIcon from "/public/icons/CompassIcon.svg";
 import VideoIcon from "/public/icons/VideoIcon.svg";
-import BellIcon from "/public/icons/BellIcon.svg";
 import EnvelopeIcon from "/public/icons/EnvelopeIcon.svg";
 
 import { RootState, AppDispatch } from '@/store';
@@ -35,6 +34,7 @@ import { useTheme } from 'next-themes';
 import { clearFeedPosts, getPostsThunk } from '@/store/postSlice';
 
 import styles from './header.module.css';
+import NotificationDropdown from '../../Notification/NotificationDropdown';
 
 /* -------------------------------------------------------------------------- */
 /*                            Search History Management                       */
@@ -413,9 +413,10 @@ const Header = memo(() => {
 
       {/* Right Action Buttons */}
       <div className={styles['header__actions']}>
-        <button className={styles['header__nav-link']} aria-label="Notifications">
+        {/* <button className={styles['header__nav-link']} aria-label="Notifications">
           <BellIcon className="w-6 h-6" aria-hidden="true"/>
-        </button>
+        </button> */}
+        <NotificationDropdown />
         <Link href="/messages" className={styles['header__nav-link']} aria-label="Messages">
           <EnvelopeIcon className="w-6 h-6" aria-hidden="true"/>
         </Link>
