@@ -421,26 +421,27 @@ const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-  clearError: (state, action: PayloadAction<keyof ProfileState["error"]>) => {
-    if (
-    action.payload === 'followUser' ||
-    action.payload === 'unfollowUser' ||
-    action.payload === 'removeFollower' ||
-    action.payload === 'acceptRequest' || // Added
-    action.payload === 'rejectRequest' // Added
-    ) {
-      state.error[action.payload] = {} as Record<number, string | null>;
-    } else {
-      state.error[action.payload] = null as string | null;
-    }
-  },
+    clearError: (state, action: PayloadAction<keyof ProfileState["error"]>) => {
+      if (
+        action.payload === "followUser" ||
+        action.payload === "unfollowUser" ||
+        action.payload === "removeFollower" ||
+        action.payload === "acceptRequest" || // Added
+        action.payload === "rejectRequest" // Added
+      ) {
+        state.error[action.payload] = {} as Record<number, string | null>;
+      } else {
+        state.error[action.payload] = null as string | null;
+      }
+    },
     clearProfileState: (state) => {
       // ... (Existing code)
       state.searchResults = []; // Added: Clear search
       state.currentSearchQuery = null;
       state.hasMoreSearch = false;
     },
-    clearSearchResults: (state) => { // Added: Reducer to clear search
+    clearSearchResults: (state) => {
+      // Added: Reducer to clear search
       state.searchResults = [];
       state.currentSearchQuery = null;
       state.hasMoreSearch = false;
@@ -452,8 +453,18 @@ const profileSlice = createSlice({
     ) => {
       state.currentProfileUsername = action.payload;
     },
-    setCurrentSearchQuery: (state, action: PayloadAction<string | null>) => { // Added: Optional reducer
+    setCurrentSearchQuery: (state, action: PayloadAction<string | null>) => {
+      // Added: Optional reducer
       state.currentSearchQuery = action.payload;
+    },
+    updateHasUnviewedStories: (
+      state,
+      action: PayloadAction<{ username: string; hasUnviewedStories: boolean }>
+    ) => {
+      const { username, hasUnviewedStories } = action.payload;
+      if (state.profiles[username]) {
+        state.profiles[username].hasUnViewedStories = hasUnviewedStories;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -483,7 +494,9 @@ const profileSlice = createSlice({
           state.currentSearchQuery = query;
 
           // Avoid duplicates using Set
-          const existingUserIds = new Set(state.searchResults.map((u) => u.userId));
+          const existingUserIds = new Set(
+            state.searchResults.map((u) => u.userId)
+          );
           const newUsers = action.payload.users.filter(
             (u) => !existingUserIds.has(u.userId)
           );
@@ -499,8 +512,14 @@ const profileSlice = createSlice({
           state.searchPagination = {
             page,
             limit: action.meta.arg.limit || 10,
-            totalPages: (action.payload as any).totalPages || Math.ceil((action.payload as any).totalUsers / (action.meta.arg.limit || 10)),
-            totalUsers: (action.payload as any).totalUsers || action.payload.users.length,
+            totalPages:
+              (action.payload as any).totalPages ||
+              Math.ceil(
+                (action.payload as any).totalUsers /
+                  (action.meta.arg.limit || 10)
+              ),
+            totalUsers:
+              (action.payload as any).totalUsers || action.payload.users.length,
           };
           state.hasMoreSearch = page < (state.searchPagination.totalPages || 1);
         }
@@ -548,7 +567,13 @@ const profileSlice = createSlice({
           action: PayloadAction<
             SimpleSuccessResponse,
             string,
-            { arg: { data: UpdateProfileRequest; profilePicture?: File; coverPicture?: File } }
+            {
+              arg: {
+                data: UpdateProfileRequest;
+                profilePicture?: File;
+                coverPicture?: File;
+              };
+            }
           >
         ) => {
           state.loading.updateProfile = false;
@@ -562,12 +587,16 @@ const profileSlice = createSlice({
               coverPicture: action.meta.arg.coverPicture
                 ? URL.createObjectURL(action.meta.arg.coverPicture)
                 : state.profiles[state.currentProfileUsername].coverPicture,
-              followers: state.profiles[state.currentProfileUsername]?.followers || [],
-              following: state.profiles[state.currentProfileUsername]?.following || [],
+              followers:
+                state.profiles[state.currentProfileUsername]?.followers || [],
+              following:
+                state.profiles[state.currentProfileUsername]?.following || [],
               followersPagination:
-                state.profiles[state.currentProfileUsername]?.followersPagination,
+                state.profiles[state.currentProfileUsername]
+                  ?.followersPagination,
               followingPagination:
-                state.profiles[state.currentProfileUsername]?.followingPagination,
+                state.profiles[state.currentProfileUsername]
+                  ?.followingPagination,
             };
           }
         }
@@ -605,19 +634,27 @@ const profileSlice = createSlice({
         updatePrivacySettingsThunk.fulfilled,
         (
           state,
-          action: PayloadAction<SimpleSuccessResponse, string, { arg: UpdatePrivacyRequest }>
+          action: PayloadAction<
+            SimpleSuccessResponse,
+            string,
+            { arg: UpdatePrivacyRequest }
+          >
         ) => {
           state.loading.updatePrivacy = false;
           if (state.currentProfileUsername) {
             state.profiles[state.currentProfileUsername] = {
               ...state.profiles[state.currentProfileUsername],
               isPrivate: action.meta.arg.isPrivate,
-              followers: state.profiles[state.currentProfileUsername]?.followers || [],
-              following: state.profiles[state.currentProfileUsername]?.following || [],
+              followers:
+                state.profiles[state.currentProfileUsername]?.followers || [],
+              following:
+                state.profiles[state.currentProfileUsername]?.following || [],
               followersPagination:
-                state.profiles[state.currentProfileUsername]?.followersPagination,
+                state.profiles[state.currentProfileUsername]
+                  ?.followersPagination,
               followingPagination:
-                state.profiles[state.currentProfileUsername]?.followingPagination,
+                state.profiles[state.currentProfileUsername]
+                  ?.followingPagination,
             };
           }
         }
@@ -721,7 +758,8 @@ const profileSlice = createSlice({
               state.profiles[username].isFollowed = true;
               state.profiles[username].followStatus = "ACCEPTED";
             }
-            const currentUserProfile = state.profiles[state.currentProfileUsername ?? ""];
+            const currentUserProfile =
+              state.profiles[state.currentProfileUsername ?? ""];
             if (currentUserProfile) {
               // تأكد إن اليوزر مش مكرر
               const alreadyFollowing = currentUserProfile.following?.some(
@@ -732,13 +770,14 @@ const profileSlice = createSlice({
                   (s) => s.userId === userId
                 );
                 if (followedUser) {
-                  if (!currentUserProfile.following) currentUserProfile.following = [];
+                  if (!currentUserProfile.following)
+                    currentUserProfile.following = [];
                   currentUserProfile.following.push({
                     userId: followedUser.userId,
                     username: followedUser.username,
                     profilePicture: followedUser.profilePicture,
                     bio: followedUser.bio,
-                    isPrivate: false, 
+                    isPrivate: false,
                     isFollowed: true,
                   });
                   // زود الـcount لو عندك pagination info
@@ -753,7 +792,7 @@ const profileSlice = createSlice({
           if (status === "PENDING") {
             // لو الفولو في حالة انتظار، متغيرش حاجة في قائمة following
             console.log("Follow request is pending");
-            if (username && state.profiles[username]) { 
+            if (username && state.profiles[username]) {
               state.profiles[username].isFollowed = false;
               state.profiles[username].followStatus = "PENDING";
             }
@@ -800,7 +839,8 @@ const profileSlice = createSlice({
         ) => {
           const userId = action.meta.arg;
           state.loading.followUser[userId] = false;
-          state.error.followUser[userId] = action.payload ?? "Failed to follow user";
+          state.error.followUser[userId] =
+            action.payload ?? "Failed to follow user";
           // Revert optimistic update for profiles
           const username = Object.keys(state.profiles).find(
             (key) => state.profiles[key].userId === userId
@@ -816,9 +856,7 @@ const profileSlice = createSlice({
               : suggestion
           );
           state.searchResults = state.searchResults.map((user) =>
-            user.userId === userId
-              ? { ...user, isFollowed: false }
-              : user
+            user.userId === userId ? { ...user, isFollowed: false } : user
           );
           // Revert optimistic update for followers and following lists
           Object.keys(state.profiles).forEach((profileUsername) => {
@@ -889,79 +927,77 @@ const profileSlice = createSlice({
           }
         });
       })
-.addCase(
-  unfollowUserThunk.fulfilled,
-  (
-    state,
-    action: PayloadAction<SimpleSuccessResponse, string, { arg: number }>
-  ) => {
-    const userId = action.meta.arg;
-    state.loading.unfollowUser[userId] = false;
+      .addCase(
+        unfollowUserThunk.fulfilled,
+        (
+          state,
+          action: PayloadAction<SimpleSuccessResponse, string, { arg: number }>
+        ) => {
+          const userId = action.meta.arg;
+          state.loading.unfollowUser[userId] = false;
 
-    const username = Object.keys(state.profiles).find(
-      (key) => state.profiles[key].userId === userId
-    );
+          const username = Object.keys(state.profiles).find(
+            (key) => state.profiles[key].userId === userId
+          );
 
-    // ✅ 1. تحديث بيانات اليوزر اللي اتعمل له Unfollow
-    if (username && state.profiles[username]) {
-      state.profiles[username].isFollowed = false;
-      state.profiles[username].followStatus = "NONE";
-    }
+          // ✅ 1. تحديث بيانات اليوزر اللي اتعمل له Unfollow
+          if (username && state.profiles[username]) {
+            state.profiles[username].isFollowed = false;
+            state.profiles[username].followStatus = "NONE";
+          }
 
-    // ✅ 2. تحديث حالة الـ suggestions
-    state.suggestions = state.suggestions.map((suggestion) =>
-      suggestion.userId === userId
-        ? { ...suggestion, isFollowed: false }
-        : suggestion
-    );
+          // ✅ 2. تحديث حالة الـ suggestions
+          state.suggestions = state.suggestions.map((suggestion) =>
+            suggestion.userId === userId
+              ? { ...suggestion, isFollowed: false }
+              : suggestion
+          );
 
-    state.searchResults = state.searchResults.map((user) =>
-        user.userId === userId
-          ? { ...user, isFollowed: false }
-          : user
-      );
+          state.searchResults = state.searchResults.map((user) =>
+            user.userId === userId ? { ...user, isFollowed: false } : user
+          );
 
-    // ✅ 3. تحديث الـ followers / following عند باقي الـ profiles
-    Object.keys(state.profiles).forEach((profileUsername) => {
-      const profile = state.profiles[profileUsername];
+          // ✅ 3. تحديث الـ followers / following عند باقي الـ profiles
+          Object.keys(state.profiles).forEach((profileUsername) => {
+            const profile = state.profiles[profileUsername];
 
-      if (profile.followers) {
-        profile.followers = profile.followers.map((follower) =>
-          follower.userId === userId
-            ? { ...follower, isFollowed: false }
-            : follower
-        );
-      }
+            if (profile.followers) {
+              profile.followers = profile.followers.map((follower) =>
+                follower.userId === userId
+                  ? { ...follower, isFollowed: false }
+                  : follower
+              );
+            }
 
-      if (profile.following) {
-        profile.following = profile.following.map((following) =>
-          following.userId === userId
-            ? { ...following, isFollowed: false }
-            : following
-        );
-      }
-    });
+            if (profile.following) {
+              profile.following = profile.following.map((following) =>
+                following.userId === userId
+                  ? { ...following, isFollowed: false }
+                  : following
+              );
+            }
+          });
 
-    // ✅ 4. إزالة اليوزر من قائمة following الخاصة بالـ current user
-    const currentUserProfile =
-      state.profiles[state.currentProfileUsername ?? ""];
-    if (currentUserProfile?.following) {
-      const beforeCount = currentUserProfile.following.length;
+          // ✅ 4. إزالة اليوزر من قائمة following الخاصة بالـ current user
+          const currentUserProfile =
+            state.profiles[state.currentProfileUsername ?? ""];
+          if (currentUserProfile?.following) {
+            const beforeCount = currentUserProfile.following.length;
 
-      currentUserProfile.following = currentUserProfile.following.filter(
-        (f) => f.userId !== userId
-      );
+            currentUserProfile.following = currentUserProfile.following.filter(
+              (f) => f.userId !== userId
+            );
 
-      // لو فعلاً كان موجود واتشال، قلل العداد
-      if (
-        currentUserProfile.followingPagination &&
-        currentUserProfile.following.length < beforeCount
-      ) {
-        currentUserProfile.followingPagination.totalCount -= 1;
-      }
-    }
-  }
-)
+            // لو فعلاً كان موجود واتشال، قلل العداد
+            if (
+              currentUserProfile.followingPagination &&
+              currentUserProfile.following.length < beforeCount
+            ) {
+              currentUserProfile.followingPagination.totalCount -= 1;
+            }
+          }
+        }
+      )
       .addCase(
         unfollowUserThunk.rejected,
         (
@@ -1300,6 +1336,13 @@ const profileSlice = createSlice({
   },
 });
 
-export const { clearError, clearProfileState, setCurrentProfileUsername, clearSearchResults, setCurrentSearchQuery } =  profileSlice.actions;
+export const {
+  clearError,
+  clearProfileState,
+  setCurrentProfileUsername,
+  clearSearchResults,
+  setCurrentSearchQuery,
+  updateHasUnviewedStories,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;
