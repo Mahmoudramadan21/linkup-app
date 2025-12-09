@@ -52,17 +52,16 @@ const FullStoryViewerPage: React.FC = memo(() => {
     }
   }, [dispatch, username, currentStoryFeedItem, error.getUserStories]);
 
-  // Set initial story index (first unviewed, or 0)
+  // Jump to first unviewed story when user stories load
   useEffect(() => {
-    if (!currentStoryFeedItem?.stories) return;
-
-    if (currentStoryFeedItem.stories.length === 0) {
-      setCurrentIndex(-1); // No stories
-      return;
+    if (currentStoryFeedItem?.stories) {
+      const firstUnviewedIndex = currentStoryFeedItem.stories.findIndex(
+        (story) => !story.isViewed
+      );
+      if (firstUnviewedIndex !== -1) {
+        setCurrentIndex(firstUnviewedIndex);
+      }
     }
-
-    const firstUnviewed = currentStoryFeedItem.stories.findIndex((s) => !s.isViewed);
-    setCurrentIndex(firstUnviewed !== -1 ? firstUnviewed : 0);
   }, [currentStoryFeedItem]);
 
   // Handle navigation to next story/user
