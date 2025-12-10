@@ -28,13 +28,15 @@ import UsersIcon from "/public/icons/UsersIcon.svg";
 import CompassIcon from "/public/icons/CompassIcon.svg";
 import VideoIcon from "/public/icons/VideoIcon.svg";
 import EnvelopeIcon from "/public/icons/EnvelopeIcon.svg";
+import SignOutAltIcon from "/public/icons/SignOutAltIcon.svg";
 
 import { RootState, AppDispatch } from '@/store';
 import { useTheme } from 'next-themes';
 import { clearFeedPosts, getPostsThunk } from '@/store/postSlice';
 
 import styles from './header.module.css';
-import NotificationDropdown from '../../Notification/NotificationDropdown';
+import NotificationDropdown from '../../notification/NotificationDropdown';
+import { logoutThunk } from '@/store/authSlice';
 
 /* -------------------------------------------------------------------------- */
 /*                            Search History Management                       */
@@ -203,6 +205,7 @@ SearchSuggestions.displayName = 'SearchSuggestions';
 const Header = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
+  const { unreadConversationsCount } = useSelector((state: RootState) => state.message);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -316,6 +319,11 @@ const Header = memo(() => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  const handleLogout = useCallback(async () => {
+    await dispatch(logoutThunk()).unwrap();
+    router.push('/login');
+  }, [dispatch, router]);
+
   return (
     <header className={styles['header__container']} role="banner" aria-label="Main header">
       {/* Logo - Refreshes feed on click */}
@@ -409,6 +417,17 @@ const Header = memo(() => {
             <span className={styles['header__nav-label']}>{link.label}</span>
           </Link>
         ))}
+        <button
+          onClick={() => {
+            handleLogout();
+            closeMobileMenu();
+          }}
+          className={`${styles['header__nav-link']} ${styles["header__nav-logout"]}`}
+          aria-label="Logout"
+        >
+          <SignOutAltIcon className="w-6 h-6" aria-hidden="true" />
+          <span className={styles['header__nav-label']}>Logout</span>
+        </button>
       </nav>
 
       {/* Right Action Buttons */}
@@ -417,8 +436,13 @@ const Header = memo(() => {
           <BellIcon className="w-6 h-6" aria-hidden="true"/>
         </button> */}
         <NotificationDropdown />
-        <Link href="/messages" className={styles['header__nav-link']} aria-label="Messages">
+        <Link href="/messages" className={`${styles['header__nav-link']} ${styles["header__action-messages"]}`} aria-label="Messages">
           <EnvelopeIcon className="w-6 h-6" aria-hidden="true"/>
+          {unreadConversationsCount > 0 && (
+            <span className={styles['header__messages-badge']}>
+              {unreadConversationsCount > 99 ? '99+' : unreadConversationsCount}
+            </span>
+          )}
         </Link>
         <button onClick={toggleTheme} className={styles['header__nav-link']} aria-label="Toggle theme">
           <span className="inline-block w-5 h-5">

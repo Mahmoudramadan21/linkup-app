@@ -11,6 +11,7 @@ import { User } from '@/types/auth';
 import { CreatePostFormData, createPostSchema } from '@/utils/validationSchemas';
 import { createPostThunk } from '@/store/postSlice';
 import { CreatePostRequest } from '@/types/post';
+import CustomVideoPlayer from '../../common/CustomVideoPlayer';
 
 interface CreatePostModalProps {
   isOpen: boolean;
@@ -190,9 +191,15 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
           {preview && (
             <div className={styles.feed__create_post_preview_wrapper}>
               {isVideoPreview ? (
-                <video
+                // <video
+                //   src={preview}
+                //   controls
+                //   className={`${styles.feed__create_post_preview} ${styles.feed__create_post_video_preview}`}
+                //   aria-label="Video preview"
+                // />
+                <CustomVideoPlayer
                   src={preview}
-                  controls
+                  autoPlay={false}
                   className={`${styles.feed__create_post_preview} ${styles.feed__create_post_video_preview}`}
                   aria-label="Video preview"
                 />

@@ -19,48 +19,12 @@ const createApiInstance = (): AxiosInstance => {
 
   const api: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-    withCredentials: true, // Send cookies (accessToken, refreshToken, csrf-token)
+    withCredentials: true, // Send cookies (accessToken & refreshToken)
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  /**
-   * Fetch a new CSRF token from the backend
-   */
-  // const fetchCsrfToken = async (): Promise<void> => {
-  //   try {
-  //     await api.get("/auth/csrf-token", {
-  //       headers: { "Cache-Control": "no-cache" },
-  //     });
-
-  //     let token: string | null = null;
-  //     for (let attempt = 1; attempt <= MAX_COOKIE_READ_ATTEMPTS; attempt++) {
-  //       token = getCookie(CSRF_TOKEN_COOKIE);
-  //       if (token) break;
-  //       await new Promise((resolve) => setTimeout(resolve, COOKIE_READ_DELAY));
-  //     }
-
-  //     if (!token) {
-  //       console.warn(
-  //         "CSRF token cookie not found after fetch. Check backend cookie configuration."
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to fetch CSRF token:", error);
-  //     const token = getCookie(CSRF_TOKEN_COOKIE);
-  //     if (token) {
-  //       console.warn("Using existing csrf-token cookie as fallback:", token);
-  //       return;
-  //     }
-  //     throw new Error("Unable to fetch CSRF token");
-  //   }
-  // };
-
-  // Initial fetch
-  // fetchCsrfToken().catch((error) => {
-  //   console.error("Initial CSRF token fetch failed:", error);
-  // });
 
   // Response interceptor
   api.interceptors.response.use(

@@ -38,7 +38,7 @@ const Aside = memo(() => {
   ];
 
   return (
-    <aside className={`${styles['aside__container']} hidden xl:flex`} role="complementary" aria-label="User sidebar">
+    <aside className={`${styles['aside__container']} h-fit hidden xl:flex`} role="complementary" aria-label="User sidebar">
       {user && (
         <Link href={`/${user.username}`} className={styles['aside__user']}>
           <Image
@@ -70,6 +70,15 @@ const Aside = memo(() => {
           </Link>
         ))}
       </nav>
+      
+      <div className="mt-2 ml-auto px-4 text-[11px] text-[var(--text-secondary)] flex items-center space-x-2">
+        <Link href="/help" className="hover:underline">Help</Link>
+        <span>•</span>
+        <Link href="/privacy" className="hover:underline">Privacy</Link>
+        <span>•</span>
+        <Link href="/terms" className="hover:underline">Terms</Link>
+      </div>
+
     </aside>
   );
 });

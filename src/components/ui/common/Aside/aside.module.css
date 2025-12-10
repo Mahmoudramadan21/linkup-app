@@ -28,7 +28,7 @@
    ========================================================================== */
 .aside__container {
   @apply bg-[var(--section-bg)] p-4 rounded-xl 
-         flex flex-col gap-md sticky top-[96px] 
+         xl:flex flex-col gap-md sticky top-[96px] 
          transition-colors duration-300;
 }
 

@@ -87,7 +87,7 @@
    ========================================================================== */
 .header__menu-toggle {
   @apply md:hidden text-lg p-2 rounded-full
-         hover:bg-[var(--neutral-gray-light)] dark:hover:bg-[var(--border-color)]
+         hover:bg-[var(--neutral-gray-dark)]
          focus:outline-none focus:ring-2 focus:ring-[var(--linkup-purple)]
          transition-all duration-200;
 }
@@ -96,7 +96,7 @@
    Navigation Links
    ========================================================================== */
 .header__nav {
-  @apply hidden md:flex items-center space-x-6;
+  @apply hidden md:flex items-center md:space-x-4 lg:space-x-6;
 }
 
 /* Mobile: Full-screen dropdown menu */
@@ -117,9 +117,21 @@
   @apply text-[var(--linkup-purple)] dark:text-[var(--linkup-purple-light)] font-semibold relative;
 }
 
-.header__nav-link--active::after {
+@media (min-width: 768px) {
+  .header__nav-link--active::after {
   content: "";
   @apply absolute left-0 -bottom-4 w-full h-[6px] bg-[var(--linkup-purple)] rounded-t-lg;
+}
+}
+
+.header__nav-logout {
+  @apply  w-10 h-10 bg-[var(--card-bg)];
+}
+
+@media (min-width: 1280px) {
+  .header__nav-logout {
+    display: none !important;
+  }
 }
 
 .header__nav-label {
@@ -141,14 +153,15 @@
          transition-all duration-200 p-2 rounded-full;
 }
 
-.header__action-notification {
+.header__action-messages {
   @apply relative;
 }
 
-.header__notification-badge {
-  @apply absolute top-0 right-0 px-1.5 py-0.5 text-xs rounded-full
-         bg-[var(--error)] text-[var(--card-bg)] dark:text-[var(--text-primary)]
-         transform translate-x-1/2 -translate-y-1/2 text-[10px] font-bold;
+.header__messages-badge {
+  @apply absolute -top-3 -right-2 min-w-[20px] h-[20px] 
+         bg-[var(--error)] text-white text-[10px] font-bold 
+         rounded-full flex items-center justify-center 
+         shadow-lg;
 }
 
 /* ==========================================================================

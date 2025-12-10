@@ -36,7 +36,7 @@ export interface LikedBy {
 export interface Post {
   PostID: number;
   User: User;
-  Content?: string;
+  Content?: string | null;
   ImageURL?: string | null;
   VideoURL?: string | null;
   likeCount: number;
@@ -51,7 +51,7 @@ export interface Post {
   saveTime?: string;
   Comments?: Comment[];
   isMine: boolean;
-  SharedPost?: Post;
+  SharedPost?: Post | null;
   Likes?: LikedBy[];
 }
 

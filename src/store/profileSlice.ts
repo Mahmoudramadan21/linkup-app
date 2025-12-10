@@ -15,7 +15,7 @@ import {
   getFollowing,
   getUserSuggestions,
 } from "@/services/profileService";
-import { search } from "@/services/searchService"; // Added import for search
+import { search } from "@/services/searchService";
 import {
   ProfileResponse,
   UpdateProfileRequest,
@@ -29,7 +29,7 @@ import {
   UserSuggestionsResponse,
   Profile,
 } from "@/types/profile";
-import { SearchResponse, SearchUser } from "@/types/search"; // Added SearchUser and SearchResponse
+import { SearchResponse, SearchUser } from "@/types/search";
 import { AxiosError } from "axios";
 import { updateUserFollowStatus } from "./postSlice";
 
@@ -57,15 +57,15 @@ interface ProfileState {
   pendingRequests: PendingFollowRequestsResponse["pendingRequests"];
   hasMoreFollowers: Record<string, boolean>;
   hasMoreFollowing: Record<string, boolean>;
-  searchResults: SearchUser[]; // Added: Array of searched users
-  searchPagination?: { // Added: Pagination info for search
+  searchResults: SearchUser[];
+  searchPagination?: {
     page: number;
     limit: number;
     totalPages: number;
-    totalUsers: number; // Assuming backend returns totalUsers
+    totalUsers: number;
   };
-  hasMoreSearch: boolean; // Added: For load more
-  currentSearchQuery: string | null; // Added: To cache last query
+  hasMoreSearch: boolean;
+  currentSearchQuery: string | null;
   loading: {
     getProfile: boolean;
     updateProfile: boolean;
@@ -81,7 +81,7 @@ interface ProfileState {
     getFollowers: boolean;
     getFollowing: boolean;
     getSuggestions: boolean;
-    searchUsers: boolean; // Added: Loading for search
+    searchUsers: boolean;
   };
   error: {
     getProfile: string | null;
@@ -98,7 +98,7 @@ interface ProfileState {
     getFollowers: string | null;
     getFollowing: string | null;
     getSuggestions: string | null;
-    searchUsers: string | null; // Added: Error for search
+    searchUsers: string | null;
   };
 }
 
@@ -110,9 +110,9 @@ const initialState: ProfileState = {
   pendingRequests: [],
   hasMoreFollowers: {},
   hasMoreFollowing: {},
-  searchResults: [], // Added
-  hasMoreSearch: false, // Added
-  currentSearchQuery: null, // Added
+  searchResults: [],
+  hasMoreSearch: false, 
+  currentSearchQuery: null, 
   loading: {
     getProfile: true,
     updateProfile: false,
@@ -128,7 +128,7 @@ const initialState: ProfileState = {
     getFollowers: true,
     getFollowing: true,
     getSuggestions: true,
-    searchUsers: true, // Added
+    searchUsers: true, 
   },
   error: {
     getProfile: null,
@@ -145,7 +145,7 @@ const initialState: ProfileState = {
     getFollowers: null,
     getFollowing: null,
     getSuggestions: null,
-    searchUsers: null, // Added
+    searchUsers: null,
   },
 };
 
@@ -154,17 +154,20 @@ export const searchUsersThunk = createAsyncThunk<
   SearchResponse,
   { query: string; page?: number; limit?: number },
   { rejectValue: string }
->("profile/searchUsers", async ({ query, page = 1, limit = 10 }, { rejectWithValue }) => {
-  try {
-    const response = await search({ query, type: "USERS", page, limit });
-    return response;
-  } catch (error: unknown) {
-    const axiosError = error as AxiosError<{ message?: string }>;
-    return rejectWithValue(
-      axiosError.response?.data?.message || "Failed to search users"
-    );
+>(
+  "profile/searchUsers",
+  async ({ query, page = 1, limit = 10 }, { rejectWithValue }) => {
+    try {
+      const response = await search({ query, type: "USERS", page, limit });
+      return response;
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError<{ message?: string }>;
+      return rejectWithValue(
+        axiosError.response?.data?.message || "Failed to search users"
+      );
+    }
   }
-});
+);
 
 // Async thunks
 export const getProfileByUsernameThunk = createAsyncThunk<
@@ -259,7 +262,8 @@ export const followUserThunk = createAsyncThunk<
     const response = await followUser(userId);
 
     const status = response.status || "ACCEPTED";
-    const isFollowedValue: boolean | "pending" = status === "PENDING" ? "pending" : true;
+    const isFollowedValue: boolean | "pending" =
+      status === "PENDING" ? "pending" : true;
 
     dispatch(updateUserFollowStatus({ userId, isFollowed: isFollowedValue }));
 
@@ -426,8 +430,8 @@ const profileSlice = createSlice({
         action.payload === "followUser" ||
         action.payload === "unfollowUser" ||
         action.payload === "removeFollower" ||
-        action.payload === "acceptRequest" || // Added
-        action.payload === "rejectRequest" // Added
+        action.payload === "acceptRequest" ||
+        action.payload === "rejectRequest"
       ) {
         state.error[action.payload] = {} as Record<number, string | null>;
       } else {
