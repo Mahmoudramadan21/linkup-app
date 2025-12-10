@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 
 /**
  * ConversationListSkeleton

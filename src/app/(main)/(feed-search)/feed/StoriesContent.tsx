@@ -92,8 +92,8 @@ const StoriesContent = () => {
   // Skeleton placeholder component
   const StorySkeleton = () => (
       <div className={`${styles.stories__avatar_wrapper} ${styles.secondary}`}>
-        <div className={`${styles.stories__avatar} ${styles.stories__skeleton} bg-neutral-gray`} />
-        <span className={`h-4 w-16 {${styles.stories__username} ${styles.stories__skeleton} bg-neutral-gray`}/>
+        <div className={`avatar--lg rounded-full bg-neutral-gray animate-pulse`} />
+        <span className={`h-4 w-16 mt-2 {${styles.stories__username} ${styles.stories__skeleton} bg-neutral-gray`}/>
       </div>
   );
 
@@ -125,6 +125,9 @@ const StoriesContent = () => {
           ) : (
             <>
               {storyAvatars}
+              {loading.getStoryFeed && storyFeed.length > 0 && (
+                Array.from({ length: 3 }, (_, i) => <StorySkeleton key={i} />)
+              )}
               {hasMore && (
                 <div ref={sentinelRef} className="h-1 shrink-0" aria-hidden="true" />
               )}

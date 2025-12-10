@@ -47,7 +47,7 @@ import Comment from '@/components/ui/post/Comment';
 import ReportModal from '@/components/ui/modal/ReportModal';
 import ShareModal from '@/components/ui/post/modals/ShareModal';
 import UserListModal from '@/components/ui/modal/UserListModal';
-import TruncatedText from '@/components/ui/post/TruncatedText';
+import TruncatedText from '@/components/ui/common/TruncatedText';
 import Link from 'next/link';
 
 import styles from './flicks.module.css';

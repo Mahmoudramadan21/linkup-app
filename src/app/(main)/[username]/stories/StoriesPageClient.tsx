@@ -65,6 +65,10 @@ const FullStoryViewerPage: React.FC = memo(() => {
   }, [currentStoryFeedItem]);
 
   // Handle navigation to next story/user
+  const handleClose = useCallback(() => {
+    router.push(`/${username}`, { scroll: false });
+  }, [router, username]);
+
   const handleNext = useCallback(() => {
     if (!currentStoryFeedItem?.stories) return;
 
@@ -72,11 +76,11 @@ const FullStoryViewerPage: React.FC = memo(() => {
       setCurrentIndex((i) => i + 1);
     } else if (currentStoryFeedIndex < storyFeed.length - 1) {
       const nextUser = storyFeed[currentStoryFeedIndex + 1];
-      router.push(`/feed/stories/${nextUser.username}`, { scroll: false });
+      router.replace(`/feed/stories/${nextUser.username}`, { scroll: false });
     } else {
-      router.push('/feed', { scroll: false });
+      handleClose();
     }
-  }, [currentIndex, currentStoryFeedItem, currentStoryFeedIndex, storyFeed, router]);
+  }, [currentIndex, currentStoryFeedItem, currentStoryFeedIndex, storyFeed, router, handleClose]);
 
   // Handle navigation to previous story/user
   const handlePrev = useCallback(() => {
@@ -86,13 +90,9 @@ const FullStoryViewerPage: React.FC = memo(() => {
       setCurrentIndex((i) => i - 1);
     } else if (currentStoryFeedIndex > 0) {
       const prevUser = storyFeed[currentStoryFeedIndex - 1];
-      router.push(`/feed/stories/${prevUser.username}`, { scroll: false });
+      router.replace(`/feed/stories/${prevUser.username}`, { scroll: false });
     }
   }, [currentIndex, currentStoryFeedItem, currentStoryFeedIndex, storyFeed, router]);
-
-  const handleClose = useCallback(() => {
-    router.push(`/${username}`, { scroll: false });
-  }, [router, username]);
 
   // Keyboard navigation
   const handleKeyDown = useCallback(
@@ -134,7 +134,7 @@ const FullStoryViewerPage: React.FC = memo(() => {
               onSelectUser: (newUserId) => {
                 const newUser = storyFeed.find((item) => item.userId === newUserId);
                 if (newUser) {
-                  router.push(`/feed/stories/${newUser.username}`, { scroll: false });
+                  router.replace(`/feed/stories/${newUser.username}`, { scroll: false });
                   setCurrentIndex(0);
                 }
               },

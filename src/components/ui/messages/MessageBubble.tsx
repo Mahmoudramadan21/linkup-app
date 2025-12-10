@@ -1,4 +1,3 @@
-// app/messages/components/MessageBubble.tsx
 'use client';
 
 import { memo, useRef, useEffect, useState, useCallback } from 'react';
@@ -21,7 +20,7 @@ import {
   Image as ImageIcon,
 } from 'lucide-react';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 import AudioPlayer from './AudioPlayer';
 import MediaViewer from './MediaViewer';
 import ConfirmationModal from '@/components/ui/modal/ConfirmationModal';

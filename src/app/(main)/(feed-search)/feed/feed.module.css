@@ -182,10 +182,9 @@
 .feed__share_form { @apply flex flex-col gap-sm; }
 .feed__share_input { @apply w-full p-sm rounded-lg border border-[var(--border-color)] bg-[var(--section-bg)] text-[var(--text-primary)] focus-ring text-secondary; }
 .feed__share_button { @apply btn-rounded--purple; }
-.feed__share_options { @apply flex flex-col sm:flex-row gap-sm mt-md sm-down:flex-col; }
-.feed__share_native_button { @apply btn-rounded--success; }
-.feed__share_copy_button { @apply btn-rounded bg-[var(--section-bg)] text-[var(--text-primary)] hover:bg-[var(--border-color)] focus-ring; }
-.feed__share_close_button { @apply btn-rounded bg-[var(--section-bg)] text-[var(--text-primary)] hover:bg-[var(--border-color)] focus-ring w-full text-center; }
+.feed__share_native_button { @apply btn-rounded bg-[var(--linkup-teal)] hover:bg-[var(--linkup-teal-light)] text-white focus-ring; }
+.feed__share_copy_button { @apply btn-rounded bg-[var(--linkup-orange)] hover:bg-[var(--linkup-orange-light)] text-white focus-ring; }
+.feed__share_close_button { @apply btn-rounded bg-[var(--neutral-gray)] hover:bg-[var(--neutral-gray-light)] text-white focus-ring w-full; }
 
 /* ==========================================================================
    Post Menu (three-dot menu)

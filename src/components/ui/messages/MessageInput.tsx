@@ -1,4 +1,3 @@
-// app/messages/components/MessageInput.tsx
 'use client';
 
 import { useRef, useState, FormEvent, useEffect } from 'react';
@@ -11,15 +10,15 @@ import {
   replaceOptimisticMessage,
   markMessageAsFailed,
 } from '@/store/messageSlice';
-import { FaPaperPlane, FaPlus, FaMicrophone } from 'react-icons/fa';
-import { X, CornerDownLeft } from 'lucide-react';
+import { FaPaperPlane, FaPlus, FaMicrophone, FaTimes } from 'react-icons/fa';
+import { CornerDownLeft } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import FileUploader from './FileUploader';
 import VoiceRecorder from './VoiceRecorder';
-import { useSendTypingStart, useSendTypingStop } from '../hooks/useAppSocket';
+import { useSendTypingStart, useSendTypingStop } from '@/socket/useAppSocket';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 
 interface MessageInputProps {
   conversationId: string;
@@ -257,7 +256,7 @@ export default function MessageInput({
                 onClick={removeAttachment}
                 className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1 hover:bg-black/80"
               >
-                <X size={14} />
+                <FaTimes size={14} />
               </button>
             </div>
           )}
@@ -273,25 +272,25 @@ export default function MessageInput({
                 ? 'Reply to message...'
                 : 'Type a message...'
             }
-            className={`${styles['messages__input']} p-md ${isEditing || attachmentPreview ? 'pr-[138px]' : 'pr-[112px]'}`}
+            className={`${styles['messages__input']} p-md ${isEditing || attachmentPreview ? 'pr-[160px]' : 'pr-[135px]'}`}
             rows={1}
             autoFocus
           />
 
-          {/* Cancel Edit Button */}
-          {isEditing && (
-            <button
-              type="button"
-              onClick={cancelEdit}
-              className="absolute right-[112px] top-1/2 -translate-y-1/2 p-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-              aria-label="Cancel editing"
-            >
-              <X size={16} />
-            </button>
-          )}
-
           {/* Action Buttons */}
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            {/* Cancel Edit Button */}
+            {isEditing && (
+              <button
+                type="button"
+                onClick={cancelEdit}
+                className="p-sm text-[var(--text-muted)] hover:text-[var(--linkup-purple)] transition-colors"
+                aria-label="Cancel editing"
+              >
+                <FaTimes size={18} />
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => setShowUploader(true)}
@@ -336,7 +335,7 @@ export default function MessageInput({
               onClick={cancelReply}
               className="p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex-shrink-0"
             >
-              <X size={14} />
+              <FaTimes size={14} />
             </button>
           </div>
         )}

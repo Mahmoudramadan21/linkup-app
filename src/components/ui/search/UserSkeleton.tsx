@@ -1,8 +1,7 @@
-// components/skeletons/UserSkeleton.tsx (or wherever you keep it)
 'use client';
 
 import { memo } from 'react';
-import styles from '../search.module.css';
+import styles from '@/app/(main)/(feed-search)/search/search.module.css';
 
 /**
  * UserSkeleton

@@ -1,4 +1,3 @@
-// app/messages/components/FileUploader.tsx
 'use client';
 
 import { useState, useRef, memo, useEffect } from 'react';
@@ -9,7 +8,7 @@ import { AppDispatch, RootState } from '@/store';
 import { addOptimisticMessage, markMessageAsFailed, replaceOptimisticMessage, sendMessageThunk } from '@/store/messageSlice';
 import { createPortal } from 'react-dom';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 
 /**
  * FileUploader

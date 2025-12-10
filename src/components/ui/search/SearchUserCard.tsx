@@ -1,4 +1,3 @@
-// app/(main)/(feed-search)/search/components/SearchUserCard.tsx
 'use client';
 
 import React, { memo } from 'react';
@@ -6,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaSpinner } from 'react-icons/fa';
 
-import styles from '../search.module.css';
+import styles from '@/app/(main)/(feed-search)/search/search.module.css';
 
 interface SearchUserCardProps {
   user: {

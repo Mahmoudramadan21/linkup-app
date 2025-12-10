@@ -2,17 +2,26 @@
 
 import { ReactNode, Suspense, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/store';
 import Header from '@/components/ui/common/Header';
 import Aside from '@/components/ui/common/Aside';
 
-import { useAppSocket } from './messages/hooks/useAppSocket';
+import { useAppSocket } from '@/socket/useAppSocket';
+import { getConversationsThunk } from '@/store/messageSlice';
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   // Establish real-time WebSocket connection for messages
   useAppSocket();
+
+  // Load Initial Conversations  
+  useEffect(() => {
+    dispatch(getConversationsThunk({ page: 1, limit: 20 }));
+  }, [dispatch]);
 
   useEffect(() => {
     const checkScreenSize = () => setIsSmallScreen(window.innerWidth <= 540);
@@ -36,9 +45,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         >
           <main className="flex-1">{children}</main>
           {showSidebar && (
-            <aside className="hidden xl:block">
-              <Aside />
-            </aside>
+            <Aside />
           )}
         </div>
       </div>

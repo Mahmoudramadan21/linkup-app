@@ -1,4 +1,3 @@
-// app/messages/components/ChatWindow.tsx
 'use client';
 
 import {
@@ -16,7 +15,7 @@ import { getMessagesThunk } from '@/store/messageSlice';
 import { setIsMobileMessagesSidebarOpen } from '@/store/uiSlice'; // New import
 import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 import { Menu } from 'lucide-react'; // New import for hamburger icon
 
 /* -------------------------------------------------------------------------- */
@@ -42,7 +41,7 @@ const MessageBubbleSkeleton = () => {
             }`}
           >
             {/* Avatar */}
-            <div className="w-10 h-10 rounded-full bg-neutral-gray shrink-0" />
+            <div className="w-12 h-12 rounded-full bg-neutral-gray shrink-0" />
 
             {/* Message block (header + bubble) */}
             <div
@@ -125,7 +124,7 @@ const HeaderSkeleton = () => {
   return (
     <header className={`${styles['messages__chat_header']} animate-pulse`}>
       {/* Avatar skeleton */}
-      <div className="w-10 h-10 rounded-full bg-neutral-gray shrink-0" />
+      <div className="w-12 h-12 rounded-full bg-neutral-gray shrink-0" />
 
       {/* Title skeleton */}
       <div className="h-5 w-32 rounded bg-neutral-gray" />

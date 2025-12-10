@@ -1,4 +1,3 @@
-// app/messages/components/AudioPlayer.tsx
 'use client';
 
 import {
@@ -9,7 +8,7 @@ import {
 } from 'react';
 import { Play, Pause, Volume2 } from 'lucide-react';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 
 interface AudioPlayerProps {
   src: string;

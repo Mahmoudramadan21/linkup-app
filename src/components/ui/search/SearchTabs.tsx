@@ -1,8 +1,7 @@
-// app/(main)/(feed-search)/search/components/SearchTabs.tsx
 'use client';
 
 import React, { memo } from 'react';
-import styles from '../search.module.css';
+import styles from '@/app/(main)/(feed-search)/search/search.module.css';
 
 const TABS = ['all', 'people', 'posts'] as const;
 

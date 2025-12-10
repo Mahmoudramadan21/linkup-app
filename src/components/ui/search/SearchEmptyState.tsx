@@ -1,9 +1,9 @@
-// app/(main)/(feed-search)/search/components/SearchEmptyState.tsx
 'use client';
 
 import React, { memo } from 'react';
 import Link from 'next/link';
 import { Search, Users, FileText } from 'lucide-react';
+import TruncatedText from '../common/TruncatedText';
 
 type TabType = 'all' | 'people' | 'posts';
 
@@ -60,7 +60,11 @@ const SearchEmptyState = memo(({ query, activeTab }: SearchEmptyStateProps) => {
 
       {/* Title */}
       <h2 className="text-primary-bold font-semibold mb-3">
-        {title}
+        <TruncatedText
+          text={title}
+          maxChars={80}
+          className="inline"
+        />
       </h2>
 
       {/* Message */}

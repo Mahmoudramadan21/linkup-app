@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: 'en_US',
       images: [
         {
-          url: `/og-profile.png`, // أو dynamic: `/api/og/profile/${username}`
+          url: `/og-profile.png`,
           width: 1200,
           height: 630,
           alt: `${displayName}'s profile on LinkUp`,

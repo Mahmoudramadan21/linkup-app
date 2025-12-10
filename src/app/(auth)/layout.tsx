@@ -6,30 +6,7 @@
 import { memo } from 'react';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
-import type { Metadata } from 'next';
 import styles from "./auth-layout.module.css"
-
-/**
- * Metadata for authentication pages.
- * @type {Metadata}
- */
-export const metadata: Metadata = {
-  title: {
-    default: 'LinkUp | Authentication',
-    template: '%s | LinkUp',
-  },
-  description: 'Sign up or log in to LinkUp to connect with friends and share your moments.',
-  openGraph: {
-    title: 'LinkUp | Authentication',
-    description: 'Connect with friends and share your moments on LinkUp.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'LinkUp | Authentication',
-    description: 'Connect with friends and share your moments on LinkUp.',
-  },
-};
 
 /**
  * Props for the AuthLayout component.

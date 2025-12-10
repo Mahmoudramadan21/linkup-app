@@ -1,4 +1,3 @@
-// app/messages/components/ConversationList.tsx
 'use client';
 
 import { memo, useEffect, useRef, useState, useCallback } from 'react';
@@ -17,7 +16,7 @@ import { setIsMobileMessagesSidebarOpen } from '@/store/uiSlice';
 import ConversationListSkeleton from './ConversationListSkeleton';
 import { Search, X } from 'lucide-react';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 
 /**
  * ConversationList

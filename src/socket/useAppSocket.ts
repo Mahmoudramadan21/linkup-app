@@ -1,4 +1,3 @@
-// app/messages/hooks/useAppSocket.tsx
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';

@@ -1,4 +1,3 @@
-// app/(main)/(feed-search)/search/components/SearchResults.tsx
 'use client';
 
 import React, { memo } from 'react';
@@ -10,7 +9,7 @@ import Post from '@/components/ui/post/Post';
 import PostSkeleton from '@/components/ui/post/PostSkeleton';
 import SearchEmptyState from './SearchEmptyState';
 
-import styles from '../search.module.css';
+import styles from '@/app/(main)/(feed-search)/search/search.module.css';
 
 type TabType = 'all' | 'people' | 'posts';
 

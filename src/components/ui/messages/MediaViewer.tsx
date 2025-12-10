@@ -1,4 +1,3 @@
-// app/messages/components/MediaViewer.tsx
 'use client';
 
 import { memo, useState, useEffect } from 'react';
@@ -6,7 +5,8 @@ import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Download, Video } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
+import CustomVideoPlayer from '../common/CustomVideoPlayer';
 
 /**
  * MediaViewer
@@ -187,12 +187,11 @@ const MediaViewer = memo(
                   onLoadingComplete={() => setLoading(false)}
                 />
               ) : (
-                <video
+                <CustomVideoPlayer
                   src={current.url}
-                  controls
                   autoPlay
+                  className="w-full h-full"
                   onLoadedData={() => setLoading(false)}
-                  className={styles['media-viewer__video']}
                 />
               )}
 

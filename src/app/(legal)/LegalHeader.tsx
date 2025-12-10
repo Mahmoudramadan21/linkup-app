@@ -14,6 +14,7 @@ const LegalHeader = () => {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
 
   const isHelp = pathname === '/help';
+  const isTerms = pathname === '/terms';
   const isPrivacy = pathname === '/privacy';
 
   return (
@@ -41,6 +42,16 @@ const LegalHeader = () => {
             }`}
           >
             Help Center
+          </Link>
+          <Link
+            href="/terms"
+            className={`text-lg font-medium transition-colors ${
+              isTerms
+                ? 'text-[var(--linkup-purple)]'
+                : 'text-[var(--text-secondary)] hover:text-[var(--linkup-purple)]'
+            }`}
+          >
+            Terms
           </Link>
           <Link
             href="/privacy"
@@ -96,6 +107,16 @@ const LegalHeader = () => {
             }`}
           >
             Help Center
+          </Link>
+          <Link
+            href="/terms"
+            className={`flex-1 text-center py-3 text-sm font-medium transition-colors ${
+              isTerms
+                ? 'text-[var(--linkup-purple)] bg-[var(--card-bg)]'
+                : 'text-[var(--text-secondary)]'
+            }`}
+          >
+            Terms
           </Link>
           <Link
             href="/privacy"

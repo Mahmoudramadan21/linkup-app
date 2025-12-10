@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'next/navigation';
 
 import { AppDispatch, RootState } from '@/store';
-import { getConversationsThunk } from '@/store/messageSlice';
 import { setIsMobileMessagesSidebarOpen } from '@/store/uiSlice';
 
-import ConversationList from './components/ConversationList';
+import ConversationList from '@/components/ui/messages/ConversationList';
 
 import styles from './messages.module.css';
 
@@ -29,14 +28,6 @@ export default function MessagesLayout({ children }: { children: React.ReactNode
   const isMobileSidebarOpen = useSelector(
     (state: RootState) => state.ui.isMobileMessagesSidebarOpen
   );
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                          Load Initial Conversations                        */
-  /* -------------------------------------------------------------------------- */
-  useEffect(() => {
-    dispatch(getConversationsThunk({ page: 1, limit: 20 }));
-  }, [dispatch]);
 
   /* -------------------------------------------------------------------------- */
   /*                      Mobile UX: Auto-open Sidebar on Load                  */

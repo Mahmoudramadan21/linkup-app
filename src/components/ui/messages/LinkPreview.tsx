@@ -1,10 +1,9 @@
-// app/messages/components/LinkPreview.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-import styles from '../messages.module.css';
+import styles from '@/app/(main)/messages/messages.module.css';
 
 /**
  * LinkPreview

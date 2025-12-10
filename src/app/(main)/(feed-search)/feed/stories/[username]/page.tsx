@@ -1,7 +1,7 @@
 // app/(main)/(feed-search)/feed/stories/[username]/page.tsx
 'use client';
 
-import { Suspense, useEffect, useState, useCallback, memo } from 'react';
+import { Suspense, useEffect, useState, useCallback, memo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -14,6 +14,7 @@ import {
   getUserStoriesThunk,
   toggleStoryLikeThunk,
   deleteStoryThunk,
+  getStoryFeedThunk,
 } from '@/store/storySlice';
 import { RootState, AppDispatch } from '@/store';
 
@@ -43,7 +44,7 @@ const FullStoryViewerPage = memo(() => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const { storyFeed, loading } = useSelector((state: RootState) => state.story);
+  const { storyFeed, hasMore, loading } = useSelector((state: RootState) => state.story);
 
   const currentStoryFeedIndex = storyFeed.findIndex((item) => item.username === username);
   const currentStoryFeedItem = storyFeed[currentStoryFeedIndex];
@@ -52,6 +53,9 @@ const FullStoryViewerPage = memo(() => {
   const [showDeleteModal, setShowDeleteModal] = useState<number | null>(null);
   const [showReportModal, setShowReportModal] = useState<number | null>(null);
   const [showViewersModal, setShowViewersModal] = useState<number | null>(null);
+
+  const usersListRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   // Fetch user stories if not already loaded
   useEffect(() => {
@@ -73,6 +77,44 @@ const FullStoryViewerPage = memo(() => {
   }, [currentStoryFeedItem]);
 
   useEffect(() => {
+    if (!sentinelRef.current || !hasMore || loading.getStoryFeed) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasMore && !loading.getStoryFeed) {
+          dispatch(
+            getStoryFeedThunk({
+              offset: storyFeed.length,
+              limit: 15,
+            })
+          );
+        }
+      },
+      {
+        root: usersListRef.current,
+        rootMargin: '100px',
+        threshold: 0.1,
+      }
+    );
+
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, loading.getStoryFeed, storyFeed.length, dispatch]);
+
+  useEffect(() => {
+    if (!hasMore || loading.getStoryFeed) return;
+
+    if (currentStoryFeedIndex >= storyFeed.length - 2) {
+      dispatch(
+        getStoryFeedThunk({
+          offset: storyFeed.length,
+          limit: 15,
+        })
+      );
+    }
+  }, [currentStoryFeedIndex, storyFeed.length, hasMore, loading.getStoryFeed, dispatch]);
+
+  useEffect(() => {
     if (username && (!loading.getUserStories || !loading.deleteStory) && currentStoryFeedItem === undefined) {
       router.replace('/feed', { scroll: false });
     }
@@ -91,7 +133,7 @@ const FullStoryViewerPage = memo(() => {
       setCurrentIndex((i) => i + 1);
     } else if (currentStoryFeedIndex < storyFeed.length - 1) {
       const nextUser = storyFeed[currentStoryFeedIndex + 1];
-      router.push(`/feed/stories/${nextUser.username}`, { scroll: false });
+      router.replace(`/feed/stories/${nextUser.username}`, { scroll: false });
     } else {
       handleClose();
     }
@@ -105,7 +147,7 @@ const FullStoryViewerPage = memo(() => {
       setCurrentIndex((i) => i - 1);
     } else if (currentStoryFeedIndex > 0) {
       const prevUser = storyFeed[currentStoryFeedIndex - 1];
-      router.push(`/feed/stories/${prevUser.username}`, { scroll: false });
+      router.replace(`/feed/stories/${prevUser.username}`, { scroll: false });
     }
   }, [currentStoryFeedItem, currentIndex, currentStoryFeedIndex, storyFeed, router]);
 
@@ -139,6 +181,12 @@ const FullStoryViewerPage = memo(() => {
           storyFeed={storyFeed}
           selectedUserId={currentStoryFeedItem?.userId || null}
           currentIndex={currentIndex}
+
+          // Infinity Scroll Props
+          usersListRef={usersListRef}
+          sentinelRef={sentinelRef}
+          hasMoreUsers={hasMore}
+
           loading={loading.getStoryFeed}
           navigation={{
             onNext: handleNext,
@@ -146,7 +194,7 @@ const FullStoryViewerPage = memo(() => {
             onSelectUser: (newUserId) => {
               const user = storyFeed.find((u) => u.userId === newUserId);
               if (user) {
-                router.push(`/feed/stories/${user.username}`, { scroll: false });
+                router.replace(`/feed/stories/${user.username}`, { scroll: false });
                 setCurrentIndex(0);
               }
             },
