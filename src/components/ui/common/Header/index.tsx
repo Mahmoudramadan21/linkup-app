@@ -36,7 +36,7 @@ import { clearFeedPosts, getPostsThunk } from '@/store/postSlice';
 
 import styles from './header.module.css';
 import { logoutThunk } from '@/store/authSlice';
-import NotificationDropdown from '../../notification';
+import NotificationDropdown from '../../notification/NotificationDropdown';
 
 /* -------------------------------------------------------------------------- */
 /*                            Search History Management                       */
