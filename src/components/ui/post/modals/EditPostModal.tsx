@@ -97,8 +97,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({
         reset();
         onClose();
       }
-    } catch (error) {
-      console.error("Failed to update post:", error);
+    } catch {
       setSubmitError("Failed to update post. Please try again.");
     }
   };

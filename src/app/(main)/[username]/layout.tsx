@@ -333,7 +333,7 @@ export default function ProfileLayout({
                 <div className={styles["profile-header__cover"]}>
                   {profile.coverPicture ? (
                     <Image
-                      src={profile.coverPicture || '/images/default-cover.jpg'}
+                      src={profile.coverPicture || '/cover-photos/default-cover.jpg'}
                       alt="Cover"
                       fill
                       priority

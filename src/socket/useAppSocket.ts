@@ -33,7 +33,6 @@ import {
  * - Smart room join/leave when switching conversations
  * - Proper cleanup of typing timeouts & socket listeners
  * - Debounced typing:start emission
- * - Comprehensive logging (dev only)
  */
 export const useAppSocket = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -104,43 +103,29 @@ export const useAppSocket = () => {
     const socket = getSocket();
     socket.connect();
 
-    const log = (event: string, data?: any) => {
-      console.log(
-        `%c[Socket] ${event}`,
-        "color: #4ade80; font-weight: bold;",
-        data || ""
-      );
-    };
-
     /* ----------------------------- Messages Event Handlers ----------------------------- */
 
     const handleNewMessage = (data: any) => {
-      log("message:new", data);
       dispatch(receiveNewMessage({ ...data, currentUserId: userId }));
     };
 
     const handleMessageEdited = (data: any) => {
-      log("message:edited", data);
       dispatch(receiveMessageEdited(data));
     };
 
     const handleMessageDeleted = (data: any) => {
-      log("message:deleted", data);
       dispatch(receiveMessageDeleted(data));
     };
 
     const handleMessagesRead = (data: any) => {
-      log("messages:read", data);
       dispatch(receiveMessagesRead(data));
     };
 
     const handleConversationCreated = (data: any) => {
-      log("conversation:created", data);
       dispatch(receiveConversationCreated({ ...data, currentUserId: userId }));
     };
 
     const handleConversationsUpdated = (data: any) => {
-      log("conversations:updated", data);
       dispatch(receiveConversationsUpdated(data));
     };
 
@@ -150,7 +135,6 @@ export const useAppSocket = () => {
       username: string;
       isTyping: boolean;
     }) => {
-      log("typing", data);
       dispatch(receiveTyping(data));
 
       if (data.isTyping) {
@@ -175,7 +159,6 @@ export const useAppSocket = () => {
     /* ----------------------------- Notifications Event Handlers ----------------------------- */
 
     const handleNewNotification = (data: any) => {
-      log("notification:new", data);
       dispatch(receiveNewNotification(data));
     };
 
@@ -184,12 +167,10 @@ export const useAppSocket = () => {
     }: {
       notificationIds: number[];
     }) => {
-      log("notification:deleted", notificationIds);
       dispatch(removeNotificationsByIds({ notificationIds }));
     };
 
     const handleUnreadCountUpdate = (data: { count: number }) => {
-      log("unreadNotificationsCount", data);
       dispatch(receiveUnreadCountUpdate({ count: data.count }));
     };
 
@@ -215,7 +196,7 @@ export const useAppSocket = () => {
     socket.on("disconnect", (reason) =>
       console.warn("WebSocket disconnected:", reason)
     );
-    socket.on("connect_error", (err) => console.error("WebSocket error:", err));
+    socket.on("connect_error", () => console.error("WebSocket error"));
 
     /* -------------------------------- Cleanup -------------------------------- */
 
@@ -260,7 +241,6 @@ export const useAppSocket = () => {
       ) {
         const prevRoom = `conversation:${prevConversationId.current}`;
         socket.emit("conversation:leave", prevRoom);
-        console.log(`Left room: ${prevRoom}`);
 
         // Clear typing indicators of previous conversation
         const oldIndicators =
@@ -277,7 +257,6 @@ export const useAppSocket = () => {
       }
 
       socket.emit("conversation:join", room);
-      console.log(`Joined room: ${room}`);
       prevConversationId.current = currentConversationId;
     };
 
@@ -292,7 +271,6 @@ export const useAppSocket = () => {
       socket.off("connect", handleConnect);
       if (socket.connected) {
         socket.emit("conversation:leave", room);
-        console.log(`Left room (cleanup): ${room}`);
       }
     };
   }, [

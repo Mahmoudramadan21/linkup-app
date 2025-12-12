@@ -111,16 +111,13 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
     setValue("media", undefined);
     
     try {
-      console.log("Form data:", data);
-      console.log("Selected file:", selectedFile);
       const payload: CreatePostRequest = {
         content: data.content || undefined,
         media: selectedFile || undefined,
       };
-      console.log("Payload for createPostThunk:", payload);
       await dispatch(createPostThunk(payload) as any).unwrap();
-    } catch (error) {
-      console.error("Failed to create post:", error);
+    } catch {
+      // Error is silently handled – no console output in production
     }
   };
 

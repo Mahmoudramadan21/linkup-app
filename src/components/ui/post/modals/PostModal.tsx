@@ -95,9 +95,6 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, postId, onClose, actions 
         .then(() => {
           pendingViewsRef.current = []; // Clear after success
         })
-        .catch((err) => {
-          console.error("Failed to record batch post views:", err);
-        });
     }
   }, 10000);
 

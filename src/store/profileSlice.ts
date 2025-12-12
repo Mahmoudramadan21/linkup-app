@@ -756,7 +756,6 @@ const profileSlice = createSlice({
           const isFollowedValue: boolean | "pending" =
             status === "PENDING" ? "pending" : true;
 
-          // ✅ لو الفولو اتقبل، ضيف اليوزر ده لقائمة following الخاصة بالـcurrent user
           if (status === "ACCEPTED") {
             if (username && state.profiles[username]) {
               state.profiles[username].isFollowed = true;
@@ -765,7 +764,6 @@ const profileSlice = createSlice({
             const currentUserProfile =
               state.profiles[state.currentProfileUsername ?? ""];
             if (currentUserProfile) {
-              // تأكد إن اليوزر مش مكرر
               const alreadyFollowing = currentUserProfile.following?.some(
                 (u) => u.userId === userId
               );
@@ -784,7 +782,6 @@ const profileSlice = createSlice({
                     isPrivate: false,
                     isFollowed: true,
                   });
-                  // زود الـcount لو عندك pagination info
                   if (currentUserProfile.followingPagination) {
                     currentUserProfile.followingPagination.totalCount += 1;
                   }
@@ -794,8 +791,6 @@ const profileSlice = createSlice({
           }
 
           if (status === "PENDING") {
-            // لو الفولو في حالة انتظار، متغيرش حاجة في قائمة following
-            console.log("Follow request is pending");
             if (username && state.profiles[username]) {
               state.profiles[username].isFollowed = false;
               state.profiles[username].followStatus = "PENDING";
@@ -944,13 +939,11 @@ const profileSlice = createSlice({
             (key) => state.profiles[key].userId === userId
           );
 
-          // ✅ 1. تحديث بيانات اليوزر اللي اتعمل له Unfollow
           if (username && state.profiles[username]) {
             state.profiles[username].isFollowed = false;
             state.profiles[username].followStatus = "NONE";
           }
 
-          // ✅ 2. تحديث حالة الـ suggestions
           state.suggestions = state.suggestions.map((suggestion) =>
             suggestion.userId === userId
               ? { ...suggestion, isFollowed: false }
@@ -961,7 +954,6 @@ const profileSlice = createSlice({
             user.userId === userId ? { ...user, isFollowed: false } : user
           );
 
-          // ✅ 3. تحديث الـ followers / following عند باقي الـ profiles
           Object.keys(state.profiles).forEach((profileUsername) => {
             const profile = state.profiles[profileUsername];
 
@@ -982,7 +974,6 @@ const profileSlice = createSlice({
             }
           });
 
-          // ✅ 4. إزالة اليوزر من قائمة following الخاصة بالـ current user
           const currentUserProfile =
             state.profiles[state.currentProfileUsername ?? ""];
           if (currentUserProfile?.following) {
@@ -992,7 +983,6 @@ const profileSlice = createSlice({
               (f) => f.userId !== userId
             );
 
-            // لو فعلاً كان موجود واتشال، قلل العداد
             if (
               currentUserProfile.followingPagination &&
               currentUserProfile.following.length < beforeCount

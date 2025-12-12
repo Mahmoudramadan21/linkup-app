@@ -40,7 +40,9 @@ interface RetryConfig extends InternalAxiosRequestConfig {
 
 const createApiInstance = (): AxiosInstance => {
   if (!API_BASE_URL) {
-    throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined in environment variables");
+    throw new Error(
+      "NEXT_PUBLIC_API_BASE_URL is not defined in environment variables"
+    );
   }
 
   const api: AxiosInstance = axios.create({
@@ -63,12 +65,6 @@ const createApiInstance = (): AxiosInstance => {
         isRetryableError(error) || // 5xx + some 4xx
         isNetworkError(error) ||
         error.response?.status === 429 // Rate limit – retry with backoff
-      );
-    },
-    onRetry: (retryCount, error, requestConfig) => {
-      console.warn(
-        `[API Retry] Attempt ${retryCount}/${MAX_GENERAL_RETRIES} for ${requestConfig.method?.toUpperCase()} ${requestConfig.url}`,
-        error.response?.status || error.code
       );
     },
   });
@@ -110,7 +106,8 @@ const createApiInstance = (): AxiosInstance => {
       // ----------------------------------------------------------------
       if (status === 429) {
         normalizedError.message =
-          error.response?.data?.message || "Too many requests. Please slow down.";
+          error.response?.data?.message ||
+          "Too many requests. Please slow down.";
         return Promise.reject(normalizedError);
       }
 
@@ -125,10 +122,11 @@ const createApiInstance = (): AxiosInstance => {
           // Retry the original request with new tokens
           return api(config);
         } catch (refreshError: any) {
-          console.error("Token refresh failed:", refreshError);
-
           // If the refresh endpoint itself fails with 401 → invalid/expired refresh token
-          if (refreshError.response?.status === 401 || config.url === "/auth/refresh") {
+          if (
+            refreshError.response?.status === 401 ||
+            config.url === "/auth/refresh"
+          ) {
             await safeLogout();
           }
 
@@ -152,9 +150,8 @@ const createApiInstance = (): AxiosInstance => {
 const safeLogout = async (): Promise<void> => {
   try {
     await logout();
-    console.info("User logged out due to invalid/expired tokens");
-  } catch (err) {
-    console.error("Logout failed during token refresh error:", err);
+  } catch {
+    // Error is silently handled – no console output in production
   }
 };
 
