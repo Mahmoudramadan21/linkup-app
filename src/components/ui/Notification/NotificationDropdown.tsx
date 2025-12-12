@@ -29,7 +29,7 @@ import {
 import { Notification, NotificationType } from '@/types/notification';
 
 import BellIcon from '/public/icons/BellIcon.svg';
-import styles from './notification-dropdown.module.css';
+import styles from './notification.module.css';
 import OverlayPortal from './OverlayPortal';
 
 /* -------------------------------------------------------------------------- */
