@@ -22,9 +22,6 @@ Allow: /privacy
 Allow: /terms
 
 # Private / sensitive pages – completely blocked
-Disallow: /login
-Disallow: /signup
-Disallow: /forgot-password
 Disallow: /verify-code
 Disallow: /reset-password
 Disallow: /password-reset-success
@@ -39,7 +36,6 @@ Disallow: /feed/stories/create
 Disallow: /feed/stories/[username]
 
 # Technical & duplicate prevention
-Disallow: /api/
 Disallow: /_next/
 Disallow: /static/
 Disallow: /*?                # Block all URLs with query parameters
@@ -49,10 +45,6 @@ Disallow: /*.env
 # Good bots – give them full access (except truly private areas)
 User-agent: Googlebot
 Allow: /
-Disallow: /api/
-Disallow: /login
-Disallow: /signup
-Disallow: /forgot-password
 Disallow: /verify-code
 Disallow: /reset-password
 Disallow: /edit
@@ -63,37 +55,26 @@ Disallow: /[username]/highlights/create
 
 User-agent: Bingbot
 Allow: /
-Disallow: /api/
-Disallow: /login
-Disallow: /signup
 Disallow: /edit
 Disallow: /messages
 Disallow: /[username]/saved
 
 User-agent: FacebookExternalHit
 Allow: /
-Disallow: /api/
-Disallow: /login
-Disallow: /signup
 Disallow: /edit
 Disallow: /messages
 Disallow: /[username]/saved
 
 User-agent: Twitterbot
 Allow: /
-Disallow: /api/
 
 User-agent: LinkedInBot
 Allow: /
-Disallow: /api/
-Disallow: /login
-Disallow: /signup
 Disallow: /edit
 Disallow: /messages
 
 User-agent: WhatsApp
 Allow: /
-Disallow: /api/
 
 User-agent: TelegramBot
 Allow: /
