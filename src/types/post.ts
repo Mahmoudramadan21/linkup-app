@@ -36,7 +36,7 @@ export interface LikedBy {
 export interface Post {
   PostID: number;
   User: User;
-  Content?: string | null;
+  Content?: string;
   ImageURL?: string | null;
   VideoURL?: string | null;
   likeCount: number;

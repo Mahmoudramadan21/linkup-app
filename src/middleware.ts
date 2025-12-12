@@ -49,8 +49,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 3) PUBLIC ROUTES → always allowed
-  // 4) Anything else → allowed
+  // 3) Anything else → allowed
   return NextResponse.next();
 }
 
