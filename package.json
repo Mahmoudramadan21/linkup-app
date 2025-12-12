@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.11.0",
+    "axios-retry": "^4.5.0",
     "critters": "^0.0.23",
     "date-fns": "^4.1.0",
     "fabric": "^6.7.1",
