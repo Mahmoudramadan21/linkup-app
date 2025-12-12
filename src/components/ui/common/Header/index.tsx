@@ -343,6 +343,7 @@ const Header = memo(() => {
           width={120}
           height={40}
           priority
+          fetchPriority="high"
           className={`${styles['header__logo']} dark:invert transition-transform hover:scale-105`}
         />
       </button>

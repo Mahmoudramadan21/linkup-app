@@ -73,15 +73,6 @@ export const metadata: Metadata = {
     creator: '@LinkUp',
     site: '@LinkUp',
   },
-
-  // PWA & Mobile
-  manifest: '/manifest.json',
-  themeColor: '#4361ee',
-  appleWebApp: {
-    capable: true,
-    title: 'LinkUp',
-    statusBarStyle: 'black-translucent',
-  },
 };
 
 /**
