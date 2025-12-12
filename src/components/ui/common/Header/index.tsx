@@ -432,9 +432,6 @@ const Header = memo(() => {
 
       {/* Right Action Buttons */}
       <div className={styles['header__actions']}>
-        {/* <button className={styles['header__nav-link']} aria-label="Notifications">
-          <BellIcon className="w-6 h-6" aria-hidden="true"/>
-        </button> */}
         <NotificationDropdown />
         <Link href="/messages" className={`${styles['header__nav-link']} ${styles["header__action-messages"]}`} aria-label="Messages">
           <EnvelopeIcon className="w-6 h-6" aria-hidden="true"/>
