@@ -35,7 +35,7 @@ import { useTheme } from 'next-themes';
 import { clearFeedPosts, getPostsThunk } from '@/store/postSlice';
 
 import styles from './header.module.css';
-import NotificationDropdown from "@/components/ui/notification/NotificationDropdown";
+import NotificationDropdown from "@/components/ui/notification";
 import { logoutThunk } from '@/store/authSlice';
 
 /* -------------------------------------------------------------------------- */
