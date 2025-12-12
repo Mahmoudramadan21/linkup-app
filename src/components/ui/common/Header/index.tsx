@@ -35,8 +35,8 @@ import { useTheme } from 'next-themes';
 import { clearFeedPosts, getPostsThunk } from '@/store/postSlice';
 
 import styles from './header.module.css';
-// import NotificationDropdown from "@/components/ui/notification";
 import { logoutThunk } from '@/store/authSlice';
+import NotificationDropdown from '../../notification';
 
 /* -------------------------------------------------------------------------- */
 /*                            Search History Management                       */
@@ -433,7 +433,7 @@ const Header = memo(() => {
 
       {/* Right Action Buttons */}
       <div className={styles['header__actions']}>
-        {/* <NotificationDropdown /> */}
+        <NotificationDropdown />
         <Link href="/messages" className={`${styles['header__nav-link']} ${styles["header__action-messages"]}`} aria-label="Messages">
           <EnvelopeIcon className="w-6 h-6" aria-hidden="true"/>
           {unreadConversationsCount > 0 && (
