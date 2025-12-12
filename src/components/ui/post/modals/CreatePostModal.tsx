@@ -11,7 +11,7 @@ import { User } from '@/types/auth';
 import { CreatePostFormData, createPostSchema } from '@/utils/validationSchemas';
 import { createPostThunk } from '@/store/postSlice';
 import { CreatePostRequest } from '@/types/post';
-import CustomVideoPlayer from '../../common/CustomVideoPlayer';
+import CustomVideoPlayer from '@/components/ui/common/CustomVideoPlayer';
 
 interface CreatePostModalProps {
   isOpen: boolean;

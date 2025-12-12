@@ -22,7 +22,7 @@ import {
 import { AppDispatch, RootState } from '@/store';
 import { recordStoryViewThunk } from '@/store/storySlice';
 import { Highlight } from '@/types/highlight';
-import StoryViewerSkeletonModal from '../../story/StoryViewerSkeletonModal';
+import StoryViewerSkeletonModal from '@/components/ui/story/StoryViewerSkeletonModal';
 
 /**
  * Props for the HighlightViewerModal component.
