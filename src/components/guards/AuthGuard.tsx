@@ -24,7 +24,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
-  if((!loading.initialize && isAuthenticated) || loading.logout) {
+  if(!loading.initialize && isAuthenticated) {
     return <>{children}</>;
   }
 };

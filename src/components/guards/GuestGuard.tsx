@@ -24,7 +24,7 @@ const Guest = ({ children }: GuestProps) => {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
-  if(!loading.initialize && !isAuthenticated) {
+  if(!loading.initialize && !isAuthenticated || loading.logout) {
     return <>{children}</>;
   }
 };
