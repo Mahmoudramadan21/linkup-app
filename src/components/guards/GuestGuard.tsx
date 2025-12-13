@@ -20,11 +20,11 @@ const Guest = ({ children }: GuestProps) => {
     }
   }, [isAuthenticated, loading, router]);
 
-  if (loading.initialize || isAuthenticated === null || loading.logout) {
+  if (loading.initialize|| loading.logout || isAuthenticated === null ) {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
-  if(!loading.initialize && !isAuthenticated) {
+  if(!loading.initialize && !loading.logout && !isAuthenticated) {
     return <>{children}</>;
   }
 };
