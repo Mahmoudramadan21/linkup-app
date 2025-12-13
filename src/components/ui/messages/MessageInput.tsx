@@ -32,7 +32,6 @@ export default function MessageInput({
   onReplyCancel,
 }: MessageInputProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const currentUser = useSelector((state: RootState) => state.auth.user);
 
   const [content, setContent] = useState('');
   const [attachment, setAttachment] = useState<File | null>(null);
@@ -145,7 +144,7 @@ export default function MessageInput({
       setAttachment(null);
       onReplyCancel?.();
       sendTypingStop(conversationId);
-    } catch (error) {
+    } catch {
       console.error('Failed to send message');
     }
   };
