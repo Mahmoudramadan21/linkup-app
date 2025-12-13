@@ -331,13 +331,17 @@ export default function ProfileLayout({
               {/* Profile header with cover and profile picture */}
               <div className={styles["profile-header__header"]}>
                 <div className={styles["profile-header__cover"]}>
-د                  <Image
-                    src={profile.coverPicture || '/cover-photos/default-cover.jpg'}
-                    alt="Cover"
-                    fill
-                    priority
-                    className={styles["profile-header__cover-image"]}
-                  />
+                  {profile.coverPicture ? (
+                    <Image
+                      src={profile.coverPicture}
+                      alt="Cover"
+                      fill
+                      priority
+                      className={styles["profile-header__cover-image"]}
+                    />
+                  ) : (
+                    <div className={styles["profile-header__cover-placeholder"]} />
+                  )}
                   {profile.isMine && (
                     <button
                       onClick={handleEditProfile}

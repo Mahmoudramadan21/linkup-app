@@ -218,8 +218,10 @@ const EditProfilePagClient = memo(() => {
           <div className={styles['profile-header__cover']}>
             {coverPicturePreview ? (
               <Image src={coverPicturePreview} alt="Cover Preview" fill className="object-cover" priority />
-            ) :  (
-            <Image src={profile.coverPicture || "/cover-photos/default-cover.jpg"} alt="Current Cover" fill className="object-cover" priority />
+            ) : profile.coverPicture ? (
+            <Image src={profile.coverPicture} alt="Current Cover" fill className="object-cover" priority />
+            ) : (
+              <div className={styles['profile-header__cover-placeholder']} />
             )}
 
             <label className={styles['profile-header__cover-label']}>
@@ -245,7 +247,7 @@ const EditProfilePagClient = memo(() => {
                   className="rounded-full border-4 border-white dark:border-gray-800 object-cover"
                   priority
                 />
-              ) :  (
+              ) : profile.profilePicture ? (
                 <Image
                   src={profile.profilePicture || "/avatars/default-avatar.svg"}
                   alt="Current Profile"
@@ -253,6 +255,8 @@ const EditProfilePagClient = memo(() => {
                   className="rounded-full border-4 border-white dark:border-gray-800 object-cover"
                   priority
                 />
+              ) : (
+                <div className={styles['profile-header__profile-picture-placeholder']} />
               )}
 
               <label className={styles['profile-header__profile-picture-label']}>
