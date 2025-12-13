@@ -63,7 +63,7 @@ const initialState: AuthState = {
   isAuthenticated: null,
   resetEmail: null,
   loading: {
-    initialize: true,
+    initialize: false,
     signup: false,
     login: false,
     refresh: false,
