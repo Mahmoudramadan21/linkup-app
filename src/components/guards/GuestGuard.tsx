@@ -11,22 +11,30 @@ interface GuestProps {
 
 const Guest = ({ children }: GuestProps) => {
   const router = useRouter();
-  const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, loading } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
-    // If user is authenticated, redirect them to feed
-    if (!loading.initialize && isAuthenticated && !loading.logout) {
-      router.replace('/feed'); 
+    if (!loading.initialize && isAuthenticated) {
+      router.replace('/feed');
     }
-  }, [isAuthenticated, loading, router]);
+  }, [isAuthenticated, loading.initialize, router]);
 
-  if (loading.initialize || (!loading.initialize && isAuthenticated === null) ) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+  if (loading.initialize) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
   }
 
-  if(!loading.initialize && !isAuthenticated) {
+  // Guest
+  if (!isAuthenticated) {
     return <>{children}</>;
   }
+
+  return null;
 };
 
 export default Guest;
