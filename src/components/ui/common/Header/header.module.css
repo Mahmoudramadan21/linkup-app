@@ -67,7 +67,7 @@
 
 /* Search Suggestions Dropdown */
 .header__search-suggestions {
-  @apply absolute top-6 left-0 right-0 pt-6 -z-40 max-h-96 w-[calc(100vw-120px)] md:w-auto overflow-y-auto
+  @apply absolute top-6 left-0 right-0 pt-6 -z-40 max-h-96 w-[calc(100vw-60px)] sm:w-[calc(100vw-120px)] md:w-auto overflow-y-auto
          bg-[var(--card-bg)] border border-[var(--border-color)] 
          rounded-b-2xl shadow-2xl;
   scrollbar-width: thin;

@@ -744,8 +744,8 @@ const messageSlice = createSlice({
           );
 
           state.messagesByConversation[conversationId].messages = [
-            ...newMessages,
             ...state.messagesByConversation[conversationId].messages,
+            ...newMessages,
           ];
           state.messagesByConversation[conversationId].hasMore = action.payload.hasMore;
         }
