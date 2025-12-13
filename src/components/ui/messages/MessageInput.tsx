@@ -6,13 +6,9 @@ import { RootState, AppDispatch } from '@/store';
 import {
   sendMessageThunk,
   editMessageThunk,
-  addOptimisticMessage,
-  replaceOptimisticMessage,
-  markMessageAsFailed,
 } from '@/store/messageSlice';
 import { FaPaperPlane, FaPlus, FaMicrophone, FaTimes } from 'react-icons/fa';
 import { CornerDownLeft } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid';
 
 import FileUploader from './FileUploader';
 import VoiceRecorder from './VoiceRecorder';
@@ -113,11 +109,12 @@ export default function MessageInput({
   /* -------------------------------------------------------------------------- */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     const trimmed = content.trim();
     if (!trimmed && !attachment) return;
 
+    // ===== Edit Message =====
     if (isEditing && editingMessage) {
-      // Edit flow (unchanged)
       dispatch(
         editMessageThunk({
           messageId: editingMessage.id,
@@ -130,51 +127,9 @@ export default function MessageInput({
       return;
     }
 
-    // ====== Optimistic Send Flow ======
-    const localId = uuidv4();
-    const now = new Date().toISOString();
-
-    const tempMessage: any = {
-      Id: localId,
-      LocalId: localId,
-      ConversationId: conversationId,
-      Content: trimmed || null,
-      Sender: {
-        UserID: currentUser!.userId,
-        Username: currentUser!.username || 'You',
-        ProfilePicture: currentUser!.profilePicture,
-      },
-      CreatedAt: now,
-      UpdatedAt: now,
-      Status: 'SENDING',
-      Attachments: attachment
-        ? [{
-            Id: localId + '-att',
-            Type: attachment.type.startsWith('image/') ? 'IMAGE' :
-                  attachment.type.startsWith('video/') ? 'VIDEO' : 'FILE',
-            Url: attachmentPreview!,         
-            FileName: attachment.name,
-            Size: attachment.size,
-          }]
-        : undefined,
-      ReplyTo: replyingTo ? { Id: replyingTo.id, Content: replyingTo.content } : undefined,
-    };
-
-    // 1. Add optimistic message immediately
-    dispatch(addOptimisticMessage({
-      conversationId,
-      message: tempMessage,
-    }));
-
-    // 2. Clear input
-    setContent('');
-    setAttachment(null);
-    onReplyCancel?.();
-    sendTypingStop(conversationId);
-
-    // 3. Send to backend
+    // ===== Send Message (Backend only) =====
     try {
-      const result = await dispatch(
+      await dispatch(
         sendMessageThunk({
           conversationId,
           data: {
@@ -185,17 +140,16 @@ export default function MessageInput({
         })
       ).unwrap();
 
-      // 4. Replace with real message
-      dispatch(replaceOptimisticMessage({
-        conversationId,
-        localId,
-        realMessage: result,
-      }));
-    } catch {
-      // 5. Mark as failed
-      dispatch(markMessageAsFailed({ conversationId, localId }));
+      // Clear UI after success
+      setContent('');
+      setAttachment(null);
+      onReplyCancel?.();
+      sendTypingStop(conversationId);
+    } catch (error) {
+      console.error('Failed to send message');
     }
   };
+
 
   /* -------------------------------------------------------------------------- */
   /*                                 Cancel Handlers                            */

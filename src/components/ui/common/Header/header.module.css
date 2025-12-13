@@ -47,7 +47,7 @@
    Search Bar
    ========================================================================== */
 .header__search {
-  @apply relative md:flex-1 max-w-xs md:max-w-md;
+  @apply relative md:flex-1 max-w-xs md:max-w-md z-50;
   position: relative;
 }
 
@@ -212,5 +212,9 @@
 @media (max-width: 640px) {
   .header__actions {
     @apply space-x-2;
+  }
+  
+  .header__search--mobile-active .header__search-input {
+    @apply w-[calc(100vw-60px)];
   }
 }
