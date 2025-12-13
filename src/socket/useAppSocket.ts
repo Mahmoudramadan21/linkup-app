@@ -107,6 +107,19 @@ export const useAppSocket = () => {
 
     const handleNewMessage = (data: any) => {
       dispatch(receiveNewMessage({ ...data, currentUserId: userId }));
+
+      if (
+        data.Sender.UserID !== userId &&
+        currentConversationId === data.ConversationId
+      ) {
+        const socket = getSocket();
+        if (socket.connected) {
+          socket.emit("messages:read", {
+            conversationId: data.ConversationId,
+            lastMessageId: data.Id,
+          });
+        }
+      }
     };
 
     const handleMessageEdited = (data: any) => {
@@ -281,6 +294,21 @@ export const useAppSocket = () => {
     typingIndicators,
     getSocket,
   ]);
+
+  /* -------------------------------------------------------------------------- */
+  /*                     Mark Messages as Read when Opening Chat                */
+  /* -------------------------------------------------------------------------- */
+
+  useEffect(() => {
+    if (!currentConversationId || !userId) return;
+
+    const socket = getSocket();
+    if (!socket.connected) return;
+
+    socket.emit("messages:read", {
+      conversationId: currentConversationId,
+    });
+  }, [currentConversationId, userId, getSocket]);
 
   /* -------------------------------------------------------------------------- */
   /*                               Final Cleanup                                    */

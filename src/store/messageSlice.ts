@@ -428,6 +428,7 @@ const messageSlice = createSlice({
       if (convIndex !== -1) {
         const conv = state.conversations[convIndex];
         const oldUnreadCount = conv.unreadCount;
+
         conv.lastMessage = {
           id: message.Id,
           content: getAutoContent(message),
@@ -435,9 +436,15 @@ const messageSlice = createSlice({
           senderId: message.Sender.UserID,
         };
         conv.updatedAt = message.CreatedAt;
-        if (currentUserId && message.Sender.UserID !== currentUserId) {
+
+        if (
+          currentUserId &&
+          message.Sender.UserID !== currentUserId &&
+          state.currentConversationId !== conversationId
+        ) {
           conv.unreadCount += 1;
         }
+
         // Update total unread conversations count
         if (oldUnreadCount === 0 && conv.unreadCount > 0) {
           state.unreadConversationsCount += 1;
