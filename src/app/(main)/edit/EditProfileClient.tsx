@@ -219,7 +219,7 @@ const EditProfilePagClient = memo(() => {
             {coverPicturePreview ? (
               <Image src={coverPicturePreview} alt="Cover Preview" fill className="object-cover" priority />
             ) :  (
-            <Image src={profile.coverPicture || "/public/cover-photos/default-cover.jpg"} alt="Current Cover" fill className="object-cover" priority />
+            <Image src={profile.coverPicture || "/cover-photos/default-cover.jpg"} alt="Current Cover" fill className="object-cover" priority />
             )}
 
             <label className={styles['profile-header__cover-label']}>
