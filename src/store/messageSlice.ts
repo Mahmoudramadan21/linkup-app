@@ -411,14 +411,12 @@ const messageSlice = createSlice({
       // Add to messages if conversation loaded
       if (state.messagesByConversation[conversationId]) {
         const existingMessages = state.messagesByConversation[conversationId].messages;
-        if (existingMessages.some((m) => m.Id === message.Id || m.LocalId === message.LocalId)) {
-            return;
-          }
-
+        if (!existingMessages.some((m) => m.Id === message.Id)) {
           state.messagesByConversation[conversationId].messages = [
             ...existingMessages,
             message,
           ];
+        }
       }
 
       // Update conversation list
