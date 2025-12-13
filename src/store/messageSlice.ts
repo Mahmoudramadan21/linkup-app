@@ -411,12 +411,14 @@ const messageSlice = createSlice({
       // Add to messages if conversation loaded
       if (state.messagesByConversation[conversationId]) {
         const existingMessages = state.messagesByConversation[conversationId].messages;
-        if (!existingMessages.some((m) => m.Id === message.Id)) {
+        if (existingMessages.some((m) => m.Id === message.Id || m.LocalId === message.LocalId)) {
+            return;
+          }
+
           state.messagesByConversation[conversationId].messages = [
             ...existingMessages,
             message,
           ];
-        }
       }
 
       // Update conversation list
@@ -607,7 +609,9 @@ const messageSlice = createSlice({
           state.loading.getConversations = false;
           const { page = 1 } = action.meta.arg;
 
-          const existingConvIds = new Set(state.conversations.map((c) => c.conversationId));
+          const existingConvIds = new Set(
+            state.conversations.map((c) => c.conversationId)
+          );
           const newConvs = action.payload.conversations.filter(
             (c) => !existingConvIds.has(c.conversationId)
           );
@@ -623,8 +627,11 @@ const messageSlice = createSlice({
             totalPages: Math.ceil(action.payload.total / action.payload.limit),
             totalCount: action.payload.total,
           };
-          state.unreadConversationsCount = calculateUnreadConversationsCount(state.conversations);
-          state.hasMoreConversations = action.payload.page < state.conversationsPagination.totalPages;
+          state.unreadConversationsCount = calculateUnreadConversationsCount(
+            state.conversations
+          );
+          state.hasMoreConversations =
+            action.payload.page < state.conversationsPagination.totalPages;
         }
       )
       .addCase(
@@ -645,14 +652,17 @@ const messageSlice = createSlice({
         state.search.loading = false;
         const { page = 1, limit = 15 } = action.meta.arg;
 
-        const existingIds = new Set(state.search.results.map(c => c.conversationId));
+        const existingIds = new Set(
+          state.search.results.map((c) => c.conversationId)
+        );
         const newResults = action.payload.conversations.filter(
-          c => !existingIds.has(c.conversationId)
+          (c) => !existingIds.has(c.conversationId)
         );
 
-        state.search.results = page > 1
-          ? [...state.search.results, ...newResults]
-          : action.payload.conversations;
+        state.search.results =
+          page > 1
+            ? [...state.search.results, ...newResults]
+            : action.payload.conversations;
 
         state.search.pagination = {
           page: action.payload.page,
@@ -660,7 +670,8 @@ const messageSlice = createSlice({
           totalPages: Math.ceil(action.payload.total / action.payload.limit),
           totalCount: action.payload.total,
         };
-        state.search.hasMore = action.payload.page < state.search.pagination.totalPages;
+        state.search.hasMore =
+          action.payload.page < state.search.pagination.totalPages;
       })
       .addCase(searchConversationsThunk.rejected, (state, action) => {
         state.search.loading = false;
@@ -673,7 +684,19 @@ const messageSlice = createSlice({
       })
       .addCase(
         startConversationThunk.fulfilled,
-          (state, action: PayloadAction<StartConversationResponse & { otherParticipant: { UserID: number; Username: string; ProfilePicture?: string | null } }>) => {          state.loading.startConversation = false;
+        (
+          state,
+          action: PayloadAction<
+            StartConversationResponse & {
+              otherParticipant: {
+                UserID: number;
+                Username: string;
+                ProfilePicture?: string | null;
+              };
+            }
+          >
+        ) => {
+          state.loading.startConversation = false;
           // Add or update conversation
           const convIndex = state.conversations.findIndex(
             (c) => c.conversationId === action.payload.conversationId
@@ -694,7 +717,9 @@ const messageSlice = createSlice({
               },
               updatedAt: new Date().toISOString(),
             });
-            state.unreadConversationsCount = calculateUnreadConversationsCount(state.conversations);
+            state.unreadConversationsCount = calculateUnreadConversationsCount(
+              state.conversations
+            );
             if (state.conversationsPagination) {
               state.conversationsPagination.totalCount += 1;
             }
@@ -737,7 +762,9 @@ const messageSlice = createSlice({
           }
 
           const existingMsgIds = new Set(
-            state.messagesByConversation[conversationId].messages.map((m) => m.Id)
+            state.messagesByConversation[conversationId].messages.map(
+              (m) => m.Id
+            )
           );
           const newMessages = action.payload.messages.filter(
             (m) => !existingMsgIds.has(m.Id)
@@ -747,15 +774,24 @@ const messageSlice = createSlice({
             ...state.messagesByConversation[conversationId].messages,
             ...newMessages,
           ];
-          state.messagesByConversation[conversationId].hasMore = action.payload.hasMore;
+          state.messagesByConversation[conversationId].hasMore =
+            action.payload.hasMore;
         }
       )
       .addCase(
         getMessagesThunk.rejected,
-        (state, action: PayloadAction<string | undefined, string, { arg: { conversationId: string } }>) => {
+        (
+          state,
+          action: PayloadAction<
+            string | undefined,
+            string,
+            { arg: { conversationId: string } }
+          >
+        ) => {
           const conversationId = action.meta.arg.conversationId;
           state.loading.getMessages[conversationId] = false;
-          state.error.getMessages[conversationId] = action.payload ?? "Failed to fetch messages";
+          state.error.getMessages[conversationId] =
+            action.payload ?? "Failed to fetch messages";
         }
       )
       // Send Message
@@ -770,7 +806,13 @@ const messageSlice = createSlice({
           action: PayloadAction<
             Message & { conversationId: string },
             string,
-            { arg: { conversationId: string; data: SendMessageRequest; attachment?: File } }
+            {
+              arg: {
+                conversationId: string;
+                data: SendMessageRequest;
+                attachment?: File;
+              };
+            }
           >
         ) => {
           state.loading.sendMessage = false;
@@ -780,46 +822,47 @@ const messageSlice = createSlice({
 
           const convData = state.messagesByConversation[conversationId];
           if (convData) {
-            const optimisticIndex = convData.messages.findIndex(
-              m => m.LocalId === realMessage.LocalId || m.Id === realMessage.LocalId
-            );
-            if (optimisticIndex !== -1) {
-              convData.messages[optimisticIndex] = realMessage;
-            } else {
-              convData.messages.push(realMessage);
+            let replaced = false;
+            if (realMessage.LocalId) {
+              const optimisticIndex = convData.messages.findIndex(
+                (m) => m.LocalId === realMessage.LocalId
+              );
+              if (optimisticIndex !== -1) {
+                convData.messages[optimisticIndex] = {
+                  ...realMessage,
+                  Status: "SENT" as const,
+                };
+                replaced = true;
+              }
             }
-          }
 
-          const convIndex = state.conversations.findIndex(c => c.conversationId === conversationId);
-          const lastMessageInfo = {
-            id: realMessage.Id,
-            content: realMessage.Content ? getAutoContent(realMessage.Content) : '[Attachment]',
-            createdAt: realMessage.CreatedAt,
-            senderId: realMessage.Sender.UserID,
-          };
+            if (!replaced) {
+              const lastMessage =
+                convData.messages[convData.messages.length - 1];
+              if (
+                lastMessage &&
+                (lastMessage.Status === "SENDING" ||
+                  !lastMessage.Id ||
+                  lastMessage.Id.toString().startsWith("local_"))
+              ) {
+                convData.messages[convData.messages.length - 1] = {
+                  ...realMessage,
+                  Status: "SENT" as const,
+                };
+                replaced = true;
+              }
+            }
 
-          if (convIndex !== -1) {
-            const conv = state.conversations[convIndex];
-            conv.lastMessage = lastMessageInfo;
-            conv.updatedAt = realMessage.CreatedAt;
-
-            state.conversations.splice(convIndex, 1);
-            state.conversations.unshift(conv);
-          } else {
-            state.conversations.unshift({
-              conversationId,
-              lastMessage: lastMessageInfo,
-              unreadCount: 0,
-              otherParticipant: {
-                UserID: realMessage.Sender.UserID,
-                Username: realMessage.Sender.Username,
-                ProfilePicture: realMessage.Sender.ProfilePicture,
-              },
-              updatedAt: realMessage.CreatedAt,
-            });
-            state.unreadConversationsCount = calculateUnreadConversationsCount(state.conversations);
-            if (state.conversationsPagination) {
-              state.conversationsPagination.totalCount += 1;
+            if (!replaced) {
+              const exists = convData.messages.some(
+                (m) => m.Id === realMessage.Id
+              );
+              if (!exists) {
+                convData.messages.push({
+                  ...realMessage,
+                  Status: "SENT" as const,
+                });
+              }
             }
           }
         }
@@ -843,7 +886,9 @@ const messageSlice = createSlice({
           const { conversationId, message, isNewConversation } = action.payload;
           const convData = state.messagesByConversation[conversationId];
           if (convData) {
-            const optimisticIndex = convData.messages.findIndex(m => m.Status === "SENT" && m.LocalId === message.LocalId);
+            const optimisticIndex = convData.messages.findIndex(
+              (m) => m.Status === "SENT" && m.LocalId === message.LocalId
+            );
             if (optimisticIndex !== -1) {
               convData.messages[optimisticIndex] = message;
             }
@@ -884,7 +929,9 @@ const messageSlice = createSlice({
               otherParticipant,
               updatedAt: message.CreatedAt,
             });
-            state.unreadConversationsCount = calculateUnreadConversationsCount(state.conversations);
+            state.unreadConversationsCount = calculateUnreadConversationsCount(
+              state.conversations
+            );
             if (state.conversationsPagination) {
               state.conversationsPagination.totalCount += 1;
             }
@@ -895,7 +942,8 @@ const messageSlice = createSlice({
         replyToStoryThunk.rejected,
         (state, action: PayloadAction<string | undefined>) => {
           state.loading.replyToStory = false;
-          state.error.replyToStory = action.payload ?? "Failed to reply to story";
+          state.error.replyToStory =
+            action.payload ?? "Failed to reply to story";
         }
       )
       // Edit Message
@@ -909,7 +957,10 @@ const messageSlice = createSlice({
         (
           state,
           action: PayloadAction<
-            SimpleSuccessResponse & { messageId: string; conversationId?: string },
+            SimpleSuccessResponse & {
+              messageId: string;
+              conversationId?: string;
+            },
             string,
             { arg: { messageId: string; data: EditMessageRequest } }
           >
@@ -924,7 +975,9 @@ const messageSlice = createSlice({
 
           const convData = state.messagesByConversation[conversationId];
           if (convData) {
-            const msgIndex = convData.messages.findIndex((m) => m.Id === messageId);
+            const msgIndex = convData.messages.findIndex(
+              (m) => m.Id === messageId
+            );
             if (msgIndex !== -1) {
               convData.messages[msgIndex] = {
                 ...convData.messages[msgIndex],
@@ -935,7 +988,9 @@ const messageSlice = createSlice({
             }
           }
 
-          const conv = state.conversations.find((c) => c.conversationId === conversationId);
+          const conv = state.conversations.find(
+            (c) => c.conversationId === conversationId
+          );
           if (conv?.lastMessage?.id === messageId) {
             conv.lastMessage.content = content;
             conv.updatedAt = editedAt;
@@ -946,7 +1001,11 @@ const messageSlice = createSlice({
         editMessageThunk.rejected,
         (
           state,
-          action: PayloadAction<string | undefined, string, { arg: { messageId: string; data: EditMessageRequest } }>
+          action: PayloadAction<
+            string | undefined,
+            string,
+            { arg: { messageId: string; data: EditMessageRequest } }
+          >
         ) => {
           const messageId = action.meta.arg.messageId;
           state.loading.editMessage[messageId] = false;
@@ -965,7 +1024,10 @@ const messageSlice = createSlice({
         (
           state,
           action: PayloadAction<
-            SimpleSuccessResponse & { messageId: string; conversationId?: string },
+            SimpleSuccessResponse & {
+              messageId: string;
+              conversationId?: string;
+            },
             string,
             { arg: string }
           >
@@ -979,7 +1041,9 @@ const messageSlice = createSlice({
 
           const convData = state.messagesByConversation[conversationId];
           if (convData) {
-            const msgIndex = convData.messages.findIndex((m) => m.Id === messageId);
+            const msgIndex = convData.messages.findIndex(
+              (m) => m.Id === messageId
+            );
             if (msgIndex !== -1) {
               convData.messages[msgIndex] = {
                 ...convData.messages[msgIndex],
@@ -990,7 +1054,9 @@ const messageSlice = createSlice({
             }
           }
 
-          const conv = state.conversations.find((c) => c.conversationId === conversationId);
+          const conv = state.conversations.find(
+            (c) => c.conversationId === conversationId
+          );
           if (conv?.lastMessage?.id === messageId) {
             conv.lastMessage.content = "Message deleted";
             conv.updatedAt = deletedAt;
