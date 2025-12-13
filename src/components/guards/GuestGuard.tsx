@@ -14,8 +14,8 @@ const Guest = ({ children }: GuestProps) => {
   const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    // If user is authenticated, redirect them to dashboard/home
-    if (!loading.initialize && isAuthenticated) {
+    // If user is authenticated, redirect them to feed
+    if (!loading.initialize && isAuthenticated && !loading.logout) {
       router.replace('/feed'); 
     }
   }, [isAuthenticated, loading, router]);
@@ -24,7 +24,7 @@ const Guest = ({ children }: GuestProps) => {
     return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
-  if(!loading.initialize && !isAuthenticated || loading.logout) {
+  if(!loading.initialize && !isAuthenticated) {
     return <>{children}</>;
   }
 };
