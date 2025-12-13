@@ -134,7 +134,7 @@ const ExplorePostModal: React.FC<ExplorePostModalProps> = ({
       </button>
       )}
 
-      <div ref={modalRef} className={styles.feed__post_modal}>
+      <div ref={modalRef} className={styles.feed__post_modal} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className={styles.feed__post_modal_header}>
           <h2 id="post-modal-title" className={styles.feed__post_modal_title}>Explore</h2>
