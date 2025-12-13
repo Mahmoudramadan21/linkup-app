@@ -851,17 +851,21 @@ const postSlice = createSlice({
           >
         ) => {
           state.loading.getPosts = false;
+
           if (action.meta.arg.page && action.meta.arg.page > 1) {
             const existingIds = new Set(state.posts.map((p) => p.PostID));
             const newPosts = action.payload.filter(
               (p) => !existingIds.has(p.PostID)
             );
+
             state.posts = [...state.posts, ...newPosts];
+
+            state.hasMore = newPosts.length >= 2;
           } else {
             state.posts = action.payload;
+            state.hasMore =
+              action.payload.length >= (action.meta.arg.limit || 10);
           }
-          state.hasMore =
-            action.payload.length === (action.meta.arg.limit || 10);
         }
       )
       .addCase(
