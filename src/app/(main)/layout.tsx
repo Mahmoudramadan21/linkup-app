@@ -9,6 +9,7 @@ import { useAppSocket } from '@/socket/useAppSocket';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { getConversationsThunk } from '@/store/messageSlice';
+import AppLoader from '@/components/ui/common/AppLoader';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -29,7 +30,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <AuthGuard>
-      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <Suspense fallback={<AppLoader />}>
         <div className="flex flex-col">
           <Header />
           <div className={`flex-1 ${showSidebar ? 'xl:grid xl:grid-cols-[77.5%_20%] xl:gap-6 container mx-auto mt-4' : ''}`}>

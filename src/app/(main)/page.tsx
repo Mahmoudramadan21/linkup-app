@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
+import AppLoader from "@/components/ui/common/AppLoader";
 
 /**
  * HomePage Component
@@ -25,8 +26,6 @@ export default function HomePage() {
 
   // Loading state while waiting
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <p>Loading...</p>
-    </div>
+    <AppLoader />
   );
 }
