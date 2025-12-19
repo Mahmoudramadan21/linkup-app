@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/store';
+import AppLoader from '../ui/common/AppLoader';
 
 interface GuestProps {
   children: ReactNode;
@@ -22,11 +23,7 @@ const Guest = ({ children }: GuestProps) => {
   }, [isAuthenticated, loading.initialize, router]);
 
   if (loading.initialize) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading...
-      </div>
-    );
+    return <AppLoader />;
   }
 
   // Guest

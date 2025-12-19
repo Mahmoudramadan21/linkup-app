@@ -149,7 +149,7 @@
 .feed__delete_cancel_button { @apply btn-rounded bg-[var(--section-bg)] text-[var(--text-primary)] hover:bg-[var(--border-color)] focus-ring; }
 
 /* Report Modal */
-.feed__report_modal_overlay { @apply modal-overlay z-50 transition-opacity duration-medium; }
+.feed__report_modal_overlay { @apply modal-overlay z-[100] transition-opacity duration-medium; }
 .feed__report_modal { @apply card modal--sm; }
 .feed__report_modal_title { @apply text-primary-bold mb-sm; }
 .feed__report_form { @apply flex flex-col gap-sm; }
@@ -176,7 +176,7 @@
 .feed__likes_username { @apply text-secondary font-medium; }
 
 /* Share Modal */
-.feed__share_modal_overlay { @apply modal-overlay z-50 transition-opacity duration-medium; }
+.feed__share_modal_overlay { @apply modal-overlay z-[100] transition-opacity duration-medium; }
 .feed__share_modal { @apply card modal; }
 .feed__share_modal_title { @apply text-primary-bold mb-sm; }
 .feed__share_form { @apply flex flex-col gap-sm; }

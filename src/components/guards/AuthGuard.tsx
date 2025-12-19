@@ -4,6 +4,7 @@ import { ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/store';
+import AppLoader from '../ui/common/AppLoader';
 
 interface AuthGuardProps {
   children: ReactNode;
@@ -21,7 +22,7 @@ const AuthGuard = ({ children }: AuthGuardProps) => {
 
   // While auth is initializing, we can show a loading indicator
   if (loading.initialize || isAuthenticated === null) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return <AppLoader />;
   }
 
   if(!loading.initialize && isAuthenticated) {
