@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: 'en_US',
       images: [
         {
-          url: '/og-following.png',
+          url: 'og/og-following.png',
           width: 1200,
           height: 630,
           alt: `${displayName}'s following list on LinkUp`,
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${displayName}'s Following | LinkUp`,
       description: `See who ${displayName} follows`,
-      images: ['/og-following.png'],
+      images: ['og/og-following.png'],
       site: '@LinkUp',
       creator: `@${username}`,
     },

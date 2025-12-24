@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Everything you need to know about using LinkUp.',
     url: 'https://linkup-app-frontend.vercel.app/help',
     type: 'website',
-    images: [{ url: '/og-help.png', width: 1200, height: 630 }],
+    images: [{ url: 'og/og-help.png', width: 1200, height: 630 }],
   },
 };
 

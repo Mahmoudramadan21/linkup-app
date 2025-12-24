@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-flicks.png',
+        url: 'og/og-flicks.png',
         width: 1200,
         height: 630,
         alt: 'Viral short videos on LinkUp Flicks',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Flicks • LinkUp',
     description: 'A fast and engaging feed of short videos from creators everywhere.',
-    images: ['/og-flicks.png'],
+    images: ['og/og-flicks.png'],
     site: '@LinkUp',
   },
 };
@@ -70,7 +70,7 @@ export default function FlicksPage() {
           description:
             'A curated gallery of trending short-form videos, viral clips, and creative moments from the LinkUp community.',
           url: 'https://linkup-app-frontend.vercel.app/flicks',
-          thumbnailUrl: '/og-flicks.png',
+          thumbnailUrl: 'og/og-flicks.png',
           genre: 'short-form video',
           inLanguage: 'ar-EG',
           isFamilyFriendly: true,
@@ -100,7 +100,7 @@ export default function FlicksPage() {
           '@type': 'VideoObject',
           name: 'Viral Flick on LinkUp',
           description: 'Watch one of the latest trending short videos on LinkUp.',
-          thumbnailUrl: '/og-flicks.png',
+          thumbnailUrl: 'og/og-flicks.png',
           uploadDate: new Date().toISOString(),
           duration: 'PT15S',
           contentUrl: 'https://linkup-app-frontend.vercel.app/flicks',

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-create-story.png',
+        url: 'og/og-create-story.png',
         width: 1200,
         height: 630,
         alt: 'Create a new story on LinkUp',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Create Story | LinkUp',
     description: 'Share a moment that lasts 24 hours',
-    images: ['/og-create-story.png'],
+    images: ['og/og-create-story.png'],
     site: '@LinkUp',
   },
 };

@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: 'en_US',
       images: [
         {
-          url: `/og-profile.png`,
+          url: `og/og-profile.png`,
           width: 1200,
           height: 630,
           alt: `${displayName}'s profile on LinkUp`,
@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${displayName} Profile | LinkUp`,
       description: `Check out ${displayName}'s profile`,
-      images: ['/og-profile.png'],
+      images: ['og/og-profile.png'],
       site: '@LinkUp',
       creator: `@${username}`,
     },

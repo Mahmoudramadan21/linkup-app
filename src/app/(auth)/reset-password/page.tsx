@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-default.png",
+        url: "og/og-default.png",
         width: 1200,
         height: 630,
         alt: "LinkUp Password Reset",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     title: "Reset Password | LinkUp",
     description:
       "Reset your LinkUp password to restore access to your account securely.",
-    images: ["/og-default.png"],
+    images: ["og/og-default.png"],
     creator: "@LinkUp",
   },
 };

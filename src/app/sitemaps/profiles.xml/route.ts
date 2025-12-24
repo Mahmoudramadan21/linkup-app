@@ -8,12 +8,12 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   const baseUrl = 'https://linkup-app-frontend.vercel.app';
 
-  const urls = sampleProfiles.map(username => ({
+  const urls = sampleProfiles.map((username) => ({
     url: `${baseUrl}/${username}`,
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'weekly',
-    priority: '0.8',
-    images: [`${baseUrl}/api/og/og-profile.png`],
+    lastmod: new Date().toISOString().split("T")[0],
+    changefreq: "weekly",
+    priority: "0.8",
+    images: [`${baseUrl}/api/ogog/og-profile.png`],
   }));
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

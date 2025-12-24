@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description: 'Your rights and responsibilities on LinkUp. Read our terms.',
     url: 'https://linkup-app-frontend.vercel.app/terms',
     type: 'website',
-    images: [{ url: '/og-terms.png', width: 1200, height: 630 }],
+    images: [{ url: 'og/og-terms.png', width: 1200, height: 630 }],
   },
 };
 

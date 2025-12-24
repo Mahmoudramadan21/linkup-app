@@ -43,7 +43,7 @@ export function generateMetadata(): Metadata {
       locale: 'en_US',
       images: [
         {
-          url: '/og-search.png',
+          url: 'og/og-search.png',
           width: 1200,
           height: 630,
           alt: 'Search people and posts on LinkUp',
@@ -55,7 +55,7 @@ export function generateMetadata(): Metadata {
       card: 'summary_large_image',
       title: 'Search | LinkUp',
       description: 'Find friends, posts, and trending content',
-      images: ['/og-search.png'],
+      images: ['og/og-search.png'],
       site: '@LinkUp',
     },
 

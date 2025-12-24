@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-connections.png',
+        url: 'og/og-connections.png',
         width: 1200,
         height: 630,
         alt: 'Manage your connections and discover new people on LinkUp',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Connections • LinkUp',
     description: 'Grow your network and discover people you may know.',
-    images: ['/og-connections.png'],
+    images: ['og/og-connections.png'],
     site: '@LinkUp',
   },
 };

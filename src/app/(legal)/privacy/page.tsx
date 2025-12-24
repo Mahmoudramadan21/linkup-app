@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description: 'Your data is safe with us. Read our full privacy policy.',
     url: 'https://linkup-app-frontend.vercel.app/privacy',
     type: 'website',
-    images: [{ url: '/og-privacy.png', width: 1200, height: 630 }],
+    images: [{ url: 'og/og-privacy.png', width: 1200, height: 630 }],
   },
 };
 

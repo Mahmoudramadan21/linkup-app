@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-login.png",
+        url: "og/og-login.png",
         width: 1200,
         height: 630,
         alt: "LinkUp Login",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     title: "Login | LinkUp",
     description:
       "Log in to your LinkUp account and continue connecting with the community.",
-    images: ["/og-login.png"],
+    images: ["og/og-login.png"],
     creator: "@LinkUp",
   },
 };

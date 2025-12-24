@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: 'en_US',
       images: [
         {
-          url: '/og-story.png', // you can later make this dynamic per user
+          url: 'og/og-story.png', // you can later make this dynamic per user
           width: 1200,
           height: 630,
           alt: `${displayName}'s active story on LinkUp`,
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${displayName}'s Story | LinkUp`,
       description: `Check out ${displayName}'s latest story`,
-      images: ['/og-story.png'],
+      images: ['og/og-story.png'],
       site: '@LinkUp',
       creator: `@${username}`,
     },

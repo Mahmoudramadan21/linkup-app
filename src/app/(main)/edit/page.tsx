@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-edit-profile.png',
+        url: 'og/og-edit-profile.png',
         width: 1200,
         height: 630,
         alt: 'Edit your LinkUp profile',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Edit Profile • LinkUp',
     description: 'Manage your profile details and settings.',
-    images: ['/og-edit-profile.png'],
+    images: ['og/og-edit-profile.png'],
     site: '@LinkUp',
   },
 };

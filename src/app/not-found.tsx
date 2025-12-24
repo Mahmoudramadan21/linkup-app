@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og-404.png",
+        url: "og/og-404.png",
         width: 1200,
         height: 630,
         alt: "LinkUp - Page Not Found",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Page Not Found | LinkUp",
     description: "Oops! This page doesn't exist.",
-    images: ["/og-404.png"],
+    images: ["og/og-404.png"],
   },
 };
 

@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-explore.png',
+        url: 'og/og-explore.png',
         width: 1200,
         height: 630,
         alt: 'Explore trending posts on LinkUp',
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Explore • LinkUp',
     description: 'Discover trending photos, videos, and the latest popular posts.',
-    images: ['/og-explore.png'],
+    images: ['og/og-explore.png'],
     site: '@LinkUp',
   },
 };

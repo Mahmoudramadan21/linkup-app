@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: '/og-feed.png',          
+        url: 'og/og-feed.png',          
         width: 1200,
         height: 630,
         alt: 'LinkUp Feed – Posts and Stories from Friends',
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Your Feed | LinkUp',
     description: 'See the latest from your friends on LinkUp.',
-    images: ['/og-feed.png'],
+    images: ['og/og-feed.png'],
     creator: '@LinkUp',
     site: '@LinkUp',
   },

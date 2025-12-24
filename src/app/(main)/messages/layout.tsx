@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_US",
       images: [
         {
-          url: "/og-messages.png",
+          url: "og/og-messages.png",
           width: 1200,
           height: 630,
           alt: "LinkUp Messages – Private Chat Interface",
@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: "Messages | LinkUp",
       description: "Chat privately with friends on LinkUp.",
-      images: ["/og-messages.png"],
+      images: ["og/og-messages.png"],
       site: "@LinkUp",
     },
   };
