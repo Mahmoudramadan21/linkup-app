@@ -147,7 +147,7 @@
 }
 
 .connections__user-card-name {
-  @apply text-base font-semibold text-[var(--text-primary)] sm-down:text-sm;
+  @apply text-base font-semibold text-[var(--text-primary)] sm-down:text-sm truncate max-w-[16ch];
 }
 
 .connections__user-card-bio {
