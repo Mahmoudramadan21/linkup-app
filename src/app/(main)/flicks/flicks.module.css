@@ -81,7 +81,7 @@
 }
 
 .flicks__user-username {
-  @apply text-secondary font-semibold;
+  @apply text-secondary font-semibold truncate max-w-[20ch];
 }
 
 .flicks__follow-status-button {

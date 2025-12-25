@@ -408,10 +408,8 @@ const FlicksPageClient: React.FC = () => {
                             className={styles['flicks__user-avatar']}
                           />
                         </Link>
-                        <Link href={`/${flick.User.Username}`}>
-                          <p className={`${styles['flicks__user-username']} hover:underline`}>
-                            {flick.User.Username}
-                          </p>
+                        <Link href={`/${flick.User.Username}`} className={`${styles['flicks__user-username']} hover:underline`}>
+                          {flick.User.Username}
                         </Link>
 
                         {user?.userId !== flick.User.UserID && (

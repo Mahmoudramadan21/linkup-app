@@ -173,7 +173,7 @@
 .feed__likes_list { @apply flex flex-col gap-sm; }
 .feed__likes_item { @apply flex items-center gap-sm; }
 .feed__likes_avatar { @apply avatar--md; }
-.feed__likes_username { @apply text-secondary font-medium; }
+.feed__likes_username { @apply text-secondary font-medium truncate max-w-[20ch]; }
 
 /* Share Modal */
 .feed__share_modal_overlay { @apply modal-overlay z-[100] transition-opacity duration-medium; }

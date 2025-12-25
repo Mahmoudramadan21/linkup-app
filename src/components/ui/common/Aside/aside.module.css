@@ -58,7 +58,7 @@
 }
 
 .aside__username {
-  @apply text-secondary;
+  @apply text-secondary truncate max-w-[20ch];
 }
 
 /* ==========================================================================

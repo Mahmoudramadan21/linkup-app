@@ -59,10 +59,17 @@
 .header__search-input {
   @apply w-full pl-12 pr-4 py-2.5 rounded-full border
          text-[var(--text-primary)] bg-[var(--card-bg)]
-         placeholder:text-[var(--text-secondary)] text-sm md:text-base
-         focus:outline-none focus:ring-2 focus:ring-[var(--linkup-purple)]
-         transition-all duration-200 shadow-sm z-50;
+         placeholder:text-[var(--text-secondary)]
+         text-sm md:text-base
+         focus:outline-none
+         transition-all duration-200
+         shadow-sm;
   min-height: 44px;
+}
+
+.header__search-input:focus {
+  border-color: var(--linkup-purple);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--linkup-purple) 40%, transparent);
 }
 
 /* Search Suggestions Dropdown */
