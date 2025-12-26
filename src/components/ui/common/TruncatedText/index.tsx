@@ -30,7 +30,7 @@ const TruncatedText: React.FC<TruncatedTextProps> = ({
   return (
     <div className="whitespace-pre-wrap break-words">
       <p 
-        className={`${className} text-right`}
+        className={`${className} ${isArabic ? "text-right" : "text-left"}`}
         dir={isArabic ? "rtl" : "ltr"}
       >
         {displayedText}
