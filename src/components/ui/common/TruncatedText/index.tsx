@@ -1,5 +1,5 @@
 // components/ui/common/TruncatedText.tsx
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 /**
  * Props for the TruncatedText component
@@ -24,8 +24,11 @@ const TruncatedText: React.FC<TruncatedTextProps> = ({
   const shouldTruncate = text.length > maxChars;
   const displayedText = isExpanded ? text : shouldTruncate ? `${text.slice(0, maxChars)}...` : text;
 
+  // Check if the text contains any Arabic characters
+  const isArabic = useMemo(() => /[\u0600-\u06FF]/.test(text), [text]);
+
   return (
-    <div className="whitespace-pre-wrap break-words">
+    <div className={`whitespace-pre-wrap break-words ${isArabic ? "rtl text-right" : "ltr text-left"}`}>
       <p className={`${className} transition-all duration-300 ease-in-out`}>
         {displayedText}
         {shouldTruncate && (
