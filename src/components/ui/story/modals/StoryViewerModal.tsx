@@ -266,7 +266,7 @@ const StoryViewerModal: React.FC<StoryViewerModalProps> = memo(
 
 
     /* ==================== Loading State ==================== */
-    if (isOpen && loading && storyFeed.length === 0) return <StoryViewerSkeletonModal />;
+    if (isOpen && loading) return <StoryViewerSkeletonModal />;
 
 
     if (!isOpen || loading) return null;

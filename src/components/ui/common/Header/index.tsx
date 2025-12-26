@@ -310,9 +310,9 @@ const Header = memo(() => {
   const navigationLinks = [
     { href: '/feed', icon: <HomeIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Home' },
     { href: `/${user?.username || ''}`, icon: <ProfileIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Profile' },
-    { href: '/connections', icon: <UsersIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Friends' },
+    { href: '/connections', icon: <UsersIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Connections' },
     { href: '/explore', icon: <CompassIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Explore' },
-    { href: '/flicks', icon: <VideoIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Videos' },
+    { href: '/flicks', icon: <VideoIcon className="w-6 h-6" aria-hidden="true"/>, label: 'Flicks' },
   ];
 
   const toggleTheme = () => {

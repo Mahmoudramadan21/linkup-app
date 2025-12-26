@@ -73,7 +73,7 @@
 }
 
 .search__user__link {
-  @apply flex items-center gap-4 flex-1 rounded-lg;
+  @apply flex items-center gap-4 flex-1 rounded-lg truncate max-w-[16ch] md:max-w-[auto];
 }
 
 .search__user__avatar {
