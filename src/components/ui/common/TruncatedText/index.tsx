@@ -28,8 +28,8 @@ const TruncatedText: React.FC<TruncatedTextProps> = ({
   const isArabic = useMemo(() => /[\u0600-\u06FF]/.test(text), [text]);
 
   return (
-    <div className={`whitespace-pre-wrap break-words ${isArabic ? "rtl text-right" : "ltr text-left"}`}>
-      <p className={`${className} transition-all duration-300 ease-in-out`}>
+    <div className="whitespace-pre-wrap break-words">
+      <p className={`${className} transition-all duration-300 ease-in-out ${isArabic ? "rtl text-right" : "ltr text-left"}`}>
         {displayedText}
         {shouldTruncate && (
           <button
